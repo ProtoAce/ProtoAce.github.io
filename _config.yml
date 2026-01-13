@@ -1,0 +1,11 @@
+# Site Settings
+title: Misha''s Portfolio
+description: A showcase of my coding projects and skills.
+remote_theme: pages-themes/minimal@v0.2.0 # This sets your design!
+
+# Social Links (used by many themes)
+github_username: ProtoAce
+linkedin_username: mishagoldenberg
+
+# Build settings
+markdown: kramdown
