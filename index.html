@@ -250,6 +250,39 @@
         </div>
     </section>
     <section class="project-card">
+        <div class="project-image-area" id="carousel-4">
+            
+            <img src="discordjs.png" alt="React Analytics Dashboard" class="carousel-slide active" onclick="openModal(this)">
+
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-4', -1)">&#10094;</button>
+            <button class="carousel-btn next" onclick="moveSlide('carousel-4', 1)">&#10095;</button>
+        </div>
+
+        <div class="project-content">
+            <span class="date">September 2024</span>
+            <h2>Sentiment Bot — Real-time NLP & Analytics</h2>
+            
+            <div>
+                <span class="tag">Node.js</span>
+                <span class="tag">React</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">VADER NLP</span>
+                <span class="tag">Express</span>
+            </div>
+
+            <p>An advanced Discord integration that monitors community health by analyzing the sentiment of text and voice communications in real-time.</p>
+            
+            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+                <li>Developed a <strong>Discord.js bot</strong> using <strong>VADER Sentiment Analysis</strong> to calculate message polarity and track user emotional trends.</li>
+                <li>Engineered a <strong>React.js web portal</strong> featuring an <strong>Express.js REST API</strong> to visualize user statistics and dynamic leaderboards.</li>
+                <li>Implemented <strong>Coqui STT (Speech-to-Text)</strong> integration to extend sentiment analysis capabilities to voice channels.</li>
+                <li>Designed a <strong>MySQL relational database</strong> schema to efficiently store and query historical analysis data for long-term trend reporting.</li>
+            </ul>
+
+            <a href="https://github.com/spektrumm/socialCredit" class="btn"><i class="fab fa-github"></i> View Repo</a>
+        </div>
+    </section>
+    <section class="project-card">
         <div class="project-image-area" id="carousel-3">
             
             <img src="titlescreen.png" alt="Hand-drawn Photoshop Assets" class="carousel-slide", onclick="openModal(this)">
