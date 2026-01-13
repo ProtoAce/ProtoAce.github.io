@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Engineering Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            margin: 0;
+        }
+
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .project-card { flex-direction: row; }
+            .project-image { width: 40%; }
+            .project-content { width: 60%; }
+        }
+
+        .project-image {
+            background: #e2e8f0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            margin-left: 0.5rem;
+        }
+
+        .btn:hover { opacity: 0.8; }
+
+        h2 { margin-top: 0; color: var(--dark); }
+        .date { color: #64748b; font-size: 0.9rem; display: block; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Your Name</h1>
+    <p>Mechanical & Embedded Systems Engineer</p>
+    <div style="margin-top: 1rem;">
+        <a href="https://github.com/yourusername" style="color: white; font-size: 1.5rem;"><i class="fab fa-github"></i></a>
+    </div>
+</header>
+
+<div class="container">
+    
+    <section class="project-card">
+        <div class="project-image">
+            <img src="ebike.jpg" alt="DIY Electric Bike Project">
+        </div>
+        <div class="project-content">
+            <span class="date">May 2025 - July 2025</span>
+            <h2>From Junkyard to Joyride — My DIY Electric Bike</h2>
+            
+            <div>
+                <span class="tag">VESC Firmware</span>
+                <span class="tag">Power Electronics</span>
+                <span class="tag">Fabrication</span>
+                <span class="tag">Embedded Systems</span>
+            </div>
+
+            <p>Built a custom high-performance e-bike from scratch on a $250 budget. Capable of 55 km/h with over 400 km of real-world testing.</p>
+            
+            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+                <li>Rewired a 2012 Jeep alternator into a 3nd-gen traction motor.</li>
+                <li>Built a 12Ah Samsung 30T battery pack with a custom spot welder.</li>
+                <li>Programmed VESC motor controller with custom firmware for brake-cutoff.</li>
+                <li>Fabricated a steel mounting frame and 16-inch wooden belt pulley.</li>
+            </ul>
+
+            <a href="https://github.com/yourusername/ebike-project" class="btn"><i class="fab fa-github"></i> View Repository</a>
+            <a href="#" class="btn btn-outline">Read Technical Writeup</a>
+        </div>
+    </section>
+    <section class="project-card">
+        <div class="project-image">
+            <p style="color: #94a3b8;">Project Image Placeholder</p>
+        </div>
+        <div class="project-content">
+            <h2>Your Next Coding Project</h2>
+            <p>Describe your next project here. Talk about the tech stack and the problem you solved.</p>
+            <a href="#" class="btn"><i class="fab fa-github"></i> View Repo</a>
+        </div>
+    </section>
+
+</div>
+
+<footer style="text-align: center; padding: 4rem; color: #94a3b8;">
+    <p>&copy; 2025 Your Name. Built with curiosity.</p>
+</footer>
+
+</body>
+</html>
