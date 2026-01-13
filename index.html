@@ -6,6 +6,7 @@
     <title>My Engineering Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* --- GLOBAL STYLES --- */
         :root {
             --primary: #2563eb;
             --dark: #1e293b;
@@ -34,6 +35,7 @@
             padding: 2rem;
         }
 
+        /* --- PROJECT CARD STYLES --- */
         .project-card {
             background: white;
             border-radius: 12px;
@@ -46,29 +48,59 @@
 
         @media (min-width: 768px) {
             .project-card { flex-direction: row; }
-            .project-image { width: 40%; }
-            .project-content { width: 60%; }
-        }
-
-        .project-image {
-            background: #e2e8f0;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            .project-image-area { width: 45%; } /* Adjusted width slightly */
+            .project-content { width: 55%; }
         }
 
         .project-content {
             padding: 2rem;
         }
 
+        /* --- CAROUSEL SPECIFIC STYLES --- */
+        .project-image-area {
+            position: relative;
+            background: #e2e8f0;
+            min-height: 300px;
+            overflow: hidden;
+        }
+
+        /* By default hide all slides */
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Absolute makes them stack on top of each other */
+            position: absolute; 
+            top: 0; left: 0;
+        }
+
+        /* Only show the one with the active class */
+        .carousel-slide.active {
+            display: block;
+        }
+
+        /* Carousel navigation buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+
+        .carousel-btn:hover { background-color: rgba(0,0,0,0.8); }
+        .carousel-btn.prev { left: 0; border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+        .carousel-btn.next { right: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+
+
+        /* --- TAGS & BUTTONS --- */
         .tag {
             display: inline-block;
             background: #e2e8f0;
@@ -98,7 +130,6 @@
         }
 
         .btn:hover { opacity: 0.8; }
-
         h2 { margin-top: 0; color: var(--dark); }
         .date { color: #64748b; font-size: 0.9rem; display: block; margin-bottom: 1rem; }
     </style>
@@ -107,21 +138,28 @@
 
 <header>
     <h1>Misha Goldenberg</h1>
-    <p>Computer Science Graduate and Embedded system hobbyist</p>
+    <p>Software Developer and Embedded System Hobbyist</p>
     <div style="margin-top: 1rem;">
-        <a href="https://github.com/protoace" style="color: white; font-size: 1.5rem;"><i class="fab fa-github"></i></a>
+        <a href="https://github.com/protoace" style="color: white; font-size: 1.5rem; margin: 0 10px;"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/mishagoldenberg" style="color: white; font-size: 1.5rem; margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
     </div>
 </header>
 
 <div class="container">
     
     <section class="project-card">
-        <div class="project-image">
-            <img src="ebike.jpg" alt="DIY Electric Bike Project">
+        <div class="project-image-area" id="carousel-1">
+            
+            <img src="Bike2.jpg" alt="Finished E-Bike" class="carousel-slide active">
+            <img src="Bike.jpg" alt="Modified Alternator Motor" class="carousel-slide">
+            <!-- <img src="ebike-welding.jpg" alt="Spot Welding Battery" class="carousel-slide"> -->
+
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-1', -1)">&#10094;</button>
+            <button class="carousel-btn next" onclick="moveSlide('carousel-1', 1)">&#10095;</button>
         </div>
         <div class="project-content">
             <span class="date">May 2025 - July 2025</span>
-            <h2>From Junkyard to Joyride — My DIY Electric Bike</h2>
+            <h2>From Junkyard to Joyride — DIY Electric Bike</h2>
             
             <div>
                 <span class="tag">VESC Firmware</span>
@@ -139,26 +177,58 @@
                 <li>Fabricated a steel mounting frame and 16-inch wooden belt pulley.</li>
             </ul>
 
-            <!-- <a href="https://github.com/yourusername/ebike-project" class="btn"><i class="fab fa-github"></i> View Repository</a>
-            <a href="#" class="btn btn-outline">Read Technical Writeup</a> -->
+            <!-- <a href="#" class="btn"><i class="fab fa-github"></i> View Repository</a> -->
         </div>
     </section>
     <section class="project-card">
-        <div class="project-image">
-            <p style="color: #94a3b8;">Project Image Placeholder</p>
+        <div class="project-image-area" id="carousel-2" style="display: flex; align-items: center; justify-content: center;">
+             <p style="color: #94a3b8;">Next Project Images</p>
         </div>
         <div class="project-content">
             <h2>Your Next Coding Project</h2>
             <p>Describe your next project here. Talk about the tech stack and the problem you solved.</p>
-            <a href="#" class="btn"><i class="fab fa-github"></i> View Repo</a>
         </div>
     </section>
 
 </div>
 
 <footer style="text-align: center; padding: 4rem; color: #94a3b8;">
-    <p>&copy; 2025 Your Name. Built with curiosity.</p>
+    <p>&copy; 2026 Misha Goldenberg. Built with curiosity.</p>
 </footer>
+
+
+<script>
+    function moveSlide(carouselId, direction) {
+        // 1. Find the specific carousel container by its ID
+        const container = document.getElementById(carouselId);
+        
+        // 2. Get all images within this specific container
+        const slides = container.getElementsByClassName('carousel-slide');
+        let activeIndex = -1;
+
+        // 3. Find which image is currently active
+        for (let i = 0; i < slides.length; i++) {
+            if (slides[i].classList.contains('active')) {
+                activeIndex = i;
+                break;
+            }
+        }
+
+        // 4. Remove active class from current image
+        slides[activeIndex].classList.remove('active');
+
+        // 5. Calculate next index (handling wrapping around start/end)
+        let nextIndex = activeIndex + direction;
+        if (nextIndex >= slides.length) {
+            nextIndex = 0; // Wrap to beginning
+        } else if (nextIndex < 0) {
+            nextIndex = slides.length - 1; // Wrap to end
+        }
+
+        // 6. Add active class to the new image
+        slides[nextIndex].classList.add('active');
+    }
+</script>
 
 </body>
 </html>
