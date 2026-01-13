@@ -150,8 +150,8 @@
     <section class="project-card">
         <div class="project-image-area" id="carousel-1">
             
-            <img src="Bike2.jpg" alt="Finished E-Bike" class="carousel-slide active">
-            <img src="Bike.jpg" alt="Modified Alternator Motor" class="carousel-slide">
+            <img src="Bike2.webp" alt="Finished E-Bike" class="carousel-slide active">
+            <img src="Bike.webp" alt="Modified Alternator Motor" class="carousel-slide">
             <!-- <img src="ebike-welding.jpg" alt="Spot Welding Battery" class="carousel-slide"> -->
 
             <button class="carousel-btn prev" onclick="moveSlide('carousel-1', -1)">&#10094;</button>
@@ -178,6 +178,41 @@
             </ul>
 
             <!-- <a href="#" class="btn"><i class="fab fa-github"></i> View Repository</a> -->
+        </div>
+    </section>
+    <section class="project-card">
+        <div class="project-image-area" id="carousel-2">
+            
+            <img src="calendar view.png" alt="CourseCraft Dashboard" class="carousel-slide active">
+            <img src="course selection.png" alt="Course Selection" class="carousel-slide">
+            <img src="optimizer.png" alt="Optimization options" class="carousel-slide">
+
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-2', -1)">&#10094;</button>
+            <button class="carousel-btn next" onclick="moveSlide('carousel-2', 1)">&#10095;</button>
+        </div>
+
+        <div class="project-content">
+            <span class="date">Nov 2025</span>
+            <h2>CourseCraft — SFU Schedule Optimizer</h2>
+            
+            <div>
+                <span class="tag">React</span>
+                <span class="tag">Python</span>
+                <span class="tag">Google OR-Tools</span>
+                <span class="tag">REST API</span>
+                <span class="tag">Algorithm Design</span>
+            </div>
+
+            <p>A smart scheduling tool for SFU students that uses constraint programming to automate the tedious process of manual timetable planning.</p>
+            
+            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+                <li>Developed a high-performance optimizer using the **Google SAT solver** to minimize schedule gaps and reduce the number of days spent on campus.</li>
+                <li>Engineered a responsive **React web application** providing an intuitive UI for students to set preferences and visualize their optimized timetables.</li>
+                <li>Integrated and parsed live data from the **SFU API**, implementing a caching layer to ensure fast response times and up-to-date course info.</li>
+            </ul>
+
+            <a href="https://github.com/yourusername/coursecraft" class="btn"><i class="fab fa-github"></i> View Repo</a>
+            <a href="#" class="btn btn-outline">Live Demo</a>
         </div>
     </section>
     <section class="project-card">
