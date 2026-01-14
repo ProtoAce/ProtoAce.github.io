@@ -59,9 +59,11 @@
         /* --- CAROUSEL SPECIFIC STYLES --- */
         .project-image-area {
             position: relative;
-            background: #1a1a1a; /* Dark background looks better for mixed aspect ratios */
-            height: 400px;       /* FORCE a consistent height */
-            width: 100%;
+            background: #1a1a1a; 
+            min-height: 300px;
+            /* This ensures the image area never grows taller than the text content */
+            max-height: 450px; 
+            /* width: 100%; */
             overflow: hidden;
         }
 
