@@ -112,6 +112,51 @@
         .carousel-btn.prev { left: 0; border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
         .carousel-btn.next { right: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
 
+        /* --- Video Buttons --- */
+        .video-thumbnail-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            text-decoration: none;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3); /* Subtle dimming */
+            color: white;
+            transition: background 0.3s ease;
+        }
+        
+        .play-overlay i {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+            transition: transform 0.3s ease;
+        }
+        
+        .play-overlay span {
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        /* Hover Effects */
+        .video-thumbnail-link:hover .play-overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-thumbnail-link:hover i {
+            transform: scale(1.1);
+            color: var(--primary); /* Uses your blue accent color */
+        }
 
         /* --- TAGS & BUTTONS --- */
         .tag {
@@ -330,17 +375,14 @@
     </section>
     <section class="project-card">
         <div class="project-image-area" id="carousel-5">
-            <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/dsr-AFdutEQ?autoplay=1&mute=1&loop=1&playlist=YOUR_VIDEO_ID&rel=0" 
-                title="Hidden Squirrel Gameplay" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                loading="lazy"
-                style="position: absolute; top: 0; left: 0;">
-            </iframe>
+            <a href="https://youtu.be/dsr-AFdutEQ" target="_blank" class="video-thumbnail-link">
+                <img src="squirrel.png" alt="Hidden Squirrel Gameplay" class="carousel-slide active">
+                
+                <div class="play-overlay">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Watch Gameplay</span>
+                </div>
+            </a>
         </div>
 
         <div class="project-content">
