@@ -374,6 +374,40 @@
         </div>
     </section>
     <section class="project-card">
+        <div class="project-image-area" id="carousel-6">
+            
+            <img src="ReportPic.png" alt="Compression Ratio Analysis" class="carousel-slide active" onclick="openModal(this)">
+
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-6', -1)">&#10094;</button>
+            <button class="carousel-btn next" onclick="moveSlide('carousel-6', 1)">&#10095;</button>
+        </div>
+
+        <div class="project-content">
+            <span class="date">July - August 2023</span>
+            <h2>Python Compression & ML Analysis (Course Project)</h2>
+            
+            <div>
+                <span class="tag">Python</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Pandas</span>
+                <span class="tag">Statistics (ANOVA)</span>
+                <span class="tag">Random Forest</span>
+            </div>
+
+            <p>An in-depth study comparing gzip, zlib, bz2, and lzma algorithms to determine optimal compression strategies across different storage media (HDD, SSD, NVMe).</p>
+            
+            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+                [cite_start]<li>Generated a comprehensive dataset of <strong>7,000 data points</strong> tracking compression speeds, ratios, and decompression times for 2.2GB of diverse file types[cite: 8, 11, 20].</li>
+                [cite_start]<li>Utilized <strong>ANOVA and Tukey HSD tests</strong> with Bonferroni correction to statistically prove performance differences based on storage type and algorithm[cite: 49, 50, 140].</li>
+                [cite_start]<li>Trained multiple ML models, including <strong>Random Forest and MLP Regressors</strong>, to predict the best compression method with a <strong>95.6% testing accuracy</strong>[cite: 103, 113, 115].</li>
+                [cite_start]<li>Analyzed hardware impacts, discovering significant performance variances when compressing on <strong>HDD vs. NVMe</strong> storage[cite: 99, 125, 130].</li>
+            </ul>
+
+            <a href="report.pdf" target="_blank" class="btn"><i class="fas fa-file-pdf"></i> Read Full Report</a>
+            <a href="https://github.com/ProtoAce/CMPT353-Compression-Analysis" class="btn btn-outline"><i class="fab fa-github"></i> View Code</a>
+        </div>
+    </section>
+    <section class="project-card">
         <div class="project-image-area" id="carousel-5">
             <a href="https://youtu.be/dsr-AFdutEQ" target="_blank" class="video-thumbnail-link">
                 <img src="squirrel.png" alt="Hidden Squirrel Gameplay" class="carousel-slide active">
