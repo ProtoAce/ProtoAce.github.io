@@ -59,20 +59,31 @@
         /* --- CAROUSEL SPECIFIC STYLES --- */
         .project-image-area {
             position: relative;
-            background: #e2e8f0;
-            min-height: 300px;
+            background: #1a1a1a; /* Dark background looks better for mixed aspect ratios */
+            height: 400px;       /* FORCE a consistent height */
+            width: 100%;
             overflow: hidden;
         }
 
         /* By default hide all slides */
         .carousel-slide {
-            display: none;
+           display: none;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            /* Absolute makes them stack on top of each other */
+            /* This is the magic line: it crops the image to fill the 400px box 
+               without distorting the image's proportions */
+            object-fit: cover; 
             position: absolute; 
-            top: 0; left: 0;
+            top: 0; 
+            left: 0;
+            cursor: zoom-in;
+        }
+
+        /* For mobile: make the height a bit shorter so it fits on small screens */
+        @media (max-width: 768px) {
+            .project-image-area {
+                height: 300px;
+            }
         }
 
         /* Only show the one with the active class */
