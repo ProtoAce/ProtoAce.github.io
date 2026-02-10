@@ -263,6 +263,44 @@
 </header>
 
 <div class="container">
+
+    <section class="project-card">
+        <div class="project-image-area" id="carousel-7">
+            
+            <img src="finsihed.webp" alt="Finished Retro Wooden Alarm Clock" class="carousel-slide active" onclick="openModal(this)">
+            <img src="box_unfinished.webp" alt="Completed but empty box" class="carousel-slide" onclick="openModal(this)">
+            <img src="breadboard.webp" alt="Prototype breadboard" class="carousel-slide" onclick="openModal(this)">
+            <img src="components.webp" alt="Wires soldered to UX components" class="carousel-slide" onclick="openModal(this)">
+            <img src="perfboard.webp" alt="Perf-board soldering and Arduino Uno" class="carousel-slide" onclick="openModal(this)">
+
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-7', -1)">&#10094;</button>
+            <button class="carousel-btn next" onclick="moveSlide('carousel-7', 1)">&#10095;</button>
+        </div>
+
+        <div class="project-content">
+            <span class="date">Personal Project</span>
+            <h2>Retro Digital Alarm Clock — Embedded Systems</h2>
+            
+            <div>
+                <span class="tag">Arduino Nano</span>
+                <span class="tag">C++</span>
+                <span class="tag">Circuits</span>
+                <span class="tag">Woodworking</span>
+            </div>
+
+            <p>A custom-built, retro-styled alarm clock featuring a hand-crafted wooden enclosure and a 4-digit 7-segment display driven by a shift register to minimize pin usage.</p>
+            
+            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+                <li>Designed and soldered a complete circuit onto a <strong>perf-board</strong>, integrating an Arduino Nano with a shift register to control the 4-digit display multiplexing.</li>
+                <li>Implemented <strong>four analog potentiometers (dials)</strong> to provide tactile control over Volume, Alarm Hour, Alarm Minute, and a Timer.</li>
+                <li>Integrated an external music library to play <strong>10+ custom melodies</strong> via the <code>tone()</code> function, managing state transitions between clock and music modes.</li>
+                <li>Fabricated a <strong>custom wooden enclosure</strong> from scratch, blending modern electronics with a vintage aesthetic.</li>
+                <li>Developed logic to handle button interrupts and real-time clock state management without the use of an external RTC module.</li>
+            </ul>
+
+            <a href="https://github.com/yourusername/arduino-clock" class="btn"><i class="fab fa-github"></i> View Repo</a>
+        </div>
+    </section>
     
     <section class="project-card">
         <div class="project-image-area" id="carousel-1">
