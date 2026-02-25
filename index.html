@@ -4,597 +4,847 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://protoace.github.io/Bike2.webp">
-    <title>My Engineering Portfolio</title>
+    <title>Misha Goldenberg — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        /* --- GLOBAL STYLES --- */
+        /* ============================================
+           DESIGN TOKENS
+           BASE:       deep charcoal / cold slate / near-black
+           ACCENT:     forest green (intentional, sparse)
+           SUPPORT:    snow, rock gray, navy, amber
+        ============================================ */
         :root {
-            --primary: #2563eb;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --text: #334155;
+            /* Backgrounds */
+            --bg-base:    #0d0f14;
+            --bg-deep:    #08090d;
+            --bg-card:    #13151d;
+            --bg-raised:  #181b26;
+            --bg-hover:   #1c2030;
+
+            /* Slate / rock grays */
+            --slate-dark: #222636;
+            --slate-mid:  #38405a;
+            --slate-lite: #5a637a;
+
+            /* Snow & ice */
+            --snow:       #eff3f7;
+            --snowfield:  #d4dce6;
+            --mist:       #9aa3b0;
+            --fog:        #626b7a;
+
+            /* Forest green — ACCENT ONLY */
+            --green:        #4fa86d;
+            --green-bright: #65c882;
+            --green-glow:   rgba(79, 168, 109, 0.13);
+            --green-border: rgba(79, 168, 109, 0.28);
+
+            /* Cold navy */
+            --navy:       #111828;
+
+            /* Amber warmth */
+            --amber:      #c8a66c;
+            --amber-glow: rgba(200, 166, 108, 0.13);
+
+            --radius:      4px;
+            --card-radius: 8px;
+            --ease:        220ms cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* ---- reset ---- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-color: var(--light);
-            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            background: var(--bg-base);
+            color: var(--mist);
+            line-height: 1.7;
+            cursor: none;
+            overflow-x: hidden;
         }
 
+        /* ============================================
+           CURSOR — site-wide consistent
+        ============================================ */
+        #cursor-dot {
+            width: 7px; height: 7px;
+            background: var(--green-bright);
+            border-radius: 50%;
+            position: fixed; pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: width .18s, height .18s, background .18s;
+            will-change: left, top;
+        }
+        #cursor-ring {
+            width: 32px; height: 32px;
+            border: 1.5px solid rgba(101, 200, 130, 0.4);
+            border-radius: 50%;
+            position: fixed; pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%,-50%);
+            will-change: left, top;
+            transition: width .28s, height .28s, border-color .28s;
+        }
+        #cursor-glow {
+            width: 560px; height: 560px;
+            border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 1;
+            background: radial-gradient(circle, rgba(79,168,109,.04) 0%, transparent 65%);
+            transform: translate(-50%,-50%);
+            will-change: left, top;
+        }
+        body.is-hovering #cursor-dot  { width: 10px; height: 10px; background: var(--amber); }
+        body.is-hovering #cursor-ring { width: 46px; height: 46px; border-color: rgba(200,166,108,.5); }
+
+        /* ============================================
+           GRAIN OVERLAY
+        ============================================ */
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            pointer-events: none; z-index: 0; opacity: .022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 200px;
+        }
+
+        /* ============================================
+           HEADER
+        ============================================ */
         header {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 2rem;
+            position: relative;
+            padding: 7.5rem 2rem 7rem;
             text-align: center;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* --- PROJECT CARD STYLES --- */
-        .project-card {
-            background: white;
-            border-radius: 12px;
+            background: linear-gradient(170deg, #070b12 0%, #0b0e17 50%, var(--bg-base) 100%);
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 3rem;
-            display: flex;
-            flex-direction: column;
+            border-bottom: 1px solid rgba(101,200,130,.09);
+        }
+
+        /* snow highlight top */
+        header::before {
+            content: ''; position: absolute; inset-inline: 0; top: 0; height: 70px;
+            background: linear-gradient(to bottom, rgba(239,243,247,.018) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        /* fog fade to body */
+        header::after {
+            content: ''; position: absolute; inset-inline: 0; bottom: 0; height: 160px;
+            background: linear-gradient(to top, var(--bg-base) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* Topography contour SVG */
+        .topo-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: .06;
+        }
+
+        /* Mountain silhouette */
+        .mountain-bg {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            width: 100%; pointer-events: none;
+            display: block;
+        }
+
+        header .eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: .68rem; letter-spacing: .26em; text-transform: uppercase;
+            color: var(--green); margin-bottom: 1.4rem;
+            position: relative; z-index: 2;
+            opacity: 0; animation: fadeUp .8s .2s forwards;
+        }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 500;
+            color: var(--snow); letter-spacing: -.022em; line-height: 1.1;
+            position: relative; z-index: 2;
+            opacity: 0; animation: fadeUp .8s .4s forwards;
+        }
+        header .subtitle {
+            margin-top: .9rem; font-size: .98rem; font-weight: 300;
+            color: var(--fog); letter-spacing: .06em;
+            position: relative; z-index: 2;
+            opacity: 0; animation: fadeUp .8s .6s forwards;
+        }
+        .header-links {
+            margin-top: 2.2rem; display: flex; gap: 1rem; justify-content: center;
+            position: relative; z-index: 2;
+            opacity: 0; animation: fadeUp .8s .8s forwards;
+        }
+        .header-links a {
+            display: inline-flex; align-items: center; gap: .48rem;
+            font-family: 'DM Mono', monospace;
+            font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+            color: var(--mist); text-decoration: none;
+            padding: .58rem 1.3rem;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: var(--radius);
+            background: rgba(255,255,255,.025);
+            transition: border-color var(--ease), color var(--ease), background var(--ease);
+        }
+        .header-links a:hover {
+            border-color: var(--green);
+            color: var(--green-bright);
+            background: var(--green-glow);
+        }
+
+        /* GREEN elevation divider */
+        .elevation-band {
+            height: 2px;
+            background: linear-gradient(to right,
+                transparent 0%,
+                rgba(101,200,130,.25) 25%,
+                rgba(101,200,130,.55) 50%,
+                rgba(101,200,130,.25) 75%,
+                transparent 100%);
+        }
+
+        /* ============================================
+           SECTION LABEL
+        ============================================ */
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: .67rem; letter-spacing: .24em; text-transform: uppercase;
+            color: var(--green);
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 2.8rem;
+            opacity: 0; animation: fadeUp .7s .1s both;
+        }
+        .section-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, rgba(101,200,130,.22), transparent);
+        }
+
+        /* ============================================
+           CONTAINER
+        ============================================ */
+        .container { max-width: 1060px; margin: 0 auto; padding: 4rem 2rem; }
+
+        /* ============================================
+           PROJECT CARDS
+        ============================================ */
+        .project-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,.065);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            display: flex; flex-direction: column;
+            opacity: 0; transform: translateY(22px);
+            transition: border-color var(--ease), box-shadow var(--ease),
+                        background var(--ease), opacity .55s ease, transform .55s ease;
+        }
+        .project-card.visible { opacity: 1; transform: translateY(0); }
+
+        .project-card:hover {
+            border-color: rgba(101,200,130,.2);
+            background: var(--bg-hover);
+            box-shadow: 0 14px 52px rgba(0,0,0,.5), 0 0 0 1px rgba(101,200,130,.04);
+        }
+
+        /* left green accent line on hover */
+        .project-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--green-bright), var(--green));
+            opacity: 0; transition: opacity var(--ease);
+        }
+        .project-card:hover::before { opacity: 1; }
+
+        .card-number {
+            position: absolute; top: 1.1rem; right: 1.3rem;
+            font-family: 'DM Mono', monospace; font-size: .6rem;
+            letter-spacing: .14em; color: rgba(255,255,255,.12); z-index: 2;
         }
 
         @media (min-width: 768px) {
             .project-card { flex-direction: row; }
-            .project-image-area { width: 45%; } /* Adjusted width slightly */
-            .project-content { width: 55%; }
+            .project-image-area { width: 42%; flex-shrink: 0; }
+            .project-content { flex: 1; }
         }
 
-        .project-content {
-            padding: 2rem;
-        }
-
-        /* --- CAROUSEL SPECIFIC STYLES --- */
+        /* ============================================
+           IMAGE / CAROUSEL
+        ============================================ */
         .project-image-area {
-            position: relative;
-            background: #1a1a1a; 
-            min-height: 300px;
-            /* This ensures the image area never grows taller than the text content */
-            max-height: 450px; 
-            /* width: 100%; */
-            overflow: hidden;
+            position: relative; background: var(--bg-deep);
+            min-height: 280px; overflow: hidden;
+        }
+        @media (max-width: 767px) { .project-image-area { height: 260px; } }
+
+        /* vignette */
+        .project-image-area::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 55%, rgba(13,15,20,.55) 100%);
+            pointer-events: none; z-index: 1;
         }
 
-        /* By default hide all slides */
         .carousel-slide {
-           display: none;
-            width: 100%;
-            height: 100%;
-            /* This is the magic line: it crops the image to fill the 400px box 
-               without distorting the image's proportions */
-            object-fit: cover; 
-            position: absolute; 
-            top: 0; 
-            left: 0;
-            cursor: zoom-in;
+            display: none; width: 100%; height: 100%;
+            object-fit: cover; position: absolute; top: 0; left: 0; cursor: zoom-in;
         }
+        .carousel-slide.active { display: block; animation: fadeImg .38s ease; }
+        @keyframes fadeImg { from { opacity: 0; } to { opacity: 1; } }
 
-        /* For mobile: make the height a bit shorter so it fits on small screens */
-        @media (max-width: 768px) {
-            .project-image-area {
-                height: 300px;
-            }
+        .carousel-dots {
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 5px; z-index: 3;
         }
-
-        /* Only show the one with the active class */
-        .carousel-slide.active {
-            display: block;
+        .carousel-dots span {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: rgba(255,255,255,.22);
+            transition: background .3s, transform .3s;
         }
+        .carousel-dots span.active-dot { background: var(--green-bright); transform: scale(1.5); }
 
-        /* Carousel navigation buttons */
         .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            padding: 1rem;
-            cursor: pointer;
-            font-size: 1.2rem;
-            z-index: 10;
-            transition: background-color 0.3s;
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(8,9,13,.82); color: var(--mist);
+            border: 1px solid rgba(255,255,255,.09);
+            padding: .62rem .78rem; cursor: pointer; font-size: .78rem;
+            z-index: 10; backdrop-filter: blur(4px);
+            transition: background var(--ease), border-color var(--ease), color var(--ease);
         }
+        .carousel-btn:hover { background: rgba(8,9,13,.97); border-color: var(--green); color: var(--green-bright); }
+        .carousel-btn.prev { left: 0; border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+        .carousel-btn.next { right: 0; border-top-left-radius: var(--radius); border-bottom-left-radius: var(--radius); }
 
-        .carousel-btn:hover { background-color: rgba(0,0,0,0.8); }
-        .carousel-btn.prev { left: 0; border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
-        .carousel-btn.next { right: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
-
-        /* --- Video Buttons --- */
-        .video-thumbnail-link {
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-        }
-        
+        .video-thumbnail-link { display: block; width: 100%; height: 100%; position: relative; text-decoration: none; }
         .play-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.3); /* Subtle dimming */
-            color: white;
-            transition: background 0.3s ease;
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(8,9,13,.48); color: white;
+            transition: background .3s; z-index: 2;
         }
-        
-        .play-overlay i {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            opacity: 0.9;
-            transition: transform 0.3s ease;
-        }
-        
+        .play-overlay i { font-size: 3rem; margin-bottom: 8px; transition: transform .3s, color .3s; }
         .play-overlay span {
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
+            font-family: 'DM Mono', monospace; font-size: .67rem;
+            letter-spacing: .2em; text-transform: uppercase; color: var(--mist);
         }
-        
-        /* Hover Effects */
-        .video-thumbnail-link:hover .play-overlay {
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .video-thumbnail-link:hover i {
-            transform: scale(1.1);
-            color: var(--primary); /* Uses your blue accent color */
+        .video-thumbnail-link:hover .play-overlay { background: rgba(8,9,13,.66); }
+        .video-thumbnail-link:hover i { transform: scale(1.1); color: var(--green-bright); }
+
+        /* ============================================
+           PROJECT CONTENT
+        ============================================ */
+        .project-content {
+            padding: 2rem 2.2rem;
+            display: flex; flex-direction: column; justify-content: center;
         }
 
-        /* --- TAGS & BUTTONS --- */
-        .tag {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+        .date {
+            font-family: 'DM Mono', monospace;
+            font-size: .66rem; letter-spacing: .17em; text-transform: uppercase;
+            color: var(--amber); display: block; margin-bottom: .5rem;
         }
+
+        .project-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.05rem, 2.5vw, 1.35rem); font-weight: 500;
+            color: var(--snowfield); line-height: 1.3; margin-bottom: .75rem;
+        }
+
+        .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+
+        .tag {
+            font-family: 'DM Mono', monospace;
+            font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--slate-lite);
+            background: rgba(255,255,255,.038);
+            border: 1px solid rgba(255,255,255,.09);
+            padding: .18rem .6rem; border-radius: var(--radius);
+            transition: background var(--ease), border-color var(--ease), color var(--ease);
+        }
+        .tag:hover {
+            background: var(--green-glow);
+            border-color: var(--green-border);
+            color: var(--green-bright);
+        }
+
+        .project-content p { font-size: .91rem; color: var(--mist); margin-bottom: .85rem; line-height: 1.75; }
+
+        .project-content ul {
+            padding-left: 0; list-style: none;
+            font-size: .87rem; color: var(--fog); margin-bottom: 1.2rem;
+        }
+        .project-content ul li {
+            position: relative; padding-left: 1.2rem;
+            margin-bottom: .42rem; line-height: 1.65;
+        }
+        .project-content ul li::before {
+            content: '—'; position: absolute; left: 0;
+            color: rgba(101,200,130,.3); font-size: .72rem; top: .08em;
+        }
+        .project-content ul li strong { color: var(--mist); font-weight: 500; }
+        .project-content ul li code {
+            font-family: 'DM Mono', monospace; font-size: .78em;
+            color: var(--amber); background: var(--amber-glow);
+            padding: .08em .32em; border-radius: 3px;
+        }
+
+        /* ============================================
+           BUTTONS
+        ============================================ */
+        .btn-group { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
 
         .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-top: 1rem;
-            transition: opacity 0.2s;
+            display: inline-flex; align-items: center; gap: .44rem;
+            font-family: 'DM Mono', monospace;
+            font-size: .7rem; letter-spacing: .13em; text-transform: uppercase;
+            padding: .55rem 1.1rem; border-radius: var(--radius);
+            text-decoration: none; transition: all var(--ease); white-space: nowrap;
         }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            margin-left: 0.5rem;
+        .btn-primary {
+            background: var(--green-glow); color: var(--green-bright);
+            border: 1px solid var(--green-border);
         }
+        .btn-primary:hover {
+            background: rgba(101,200,130,.2); border-color: var(--green-bright); color: var(--snow);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,.03); color: var(--fog);
+            border: 1px solid rgba(255,255,255,.1);
+        }
+        .btn-secondary:hover { border-color: rgba(255,255,255,.24); color: var(--mist); background: rgba(255,255,255,.06); }
 
-        .btn:hover { opacity: 0.8; }
-        h2 { margin-top: 0; color: var(--dark); }
-        .date { color: #64748b; font-size: 0.9rem; display: block; margin-bottom: 1rem; }
-
-        /* --- MODAL STYLES --- */
+        /* ============================================
+           MODAL
+        ============================================ */
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 2000; /* Stays on top of everything */
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); /* Dark background */
-            overflow: auto; /* Allows scrolling if image is large */
-            cursor: zoom-out;
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(4,5,9,.94); backdrop-filter: blur(10px);
+            cursor: zoom-out; align-items: center; justify-content: center;
         }
-        
+        .modal.open { display: flex; }
         .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            padding: 60px 0; /* Space at top and bottom for scrolling */
+            max-width: 90vw; max-height: 88vh;
+            border-radius: var(--card-radius); cursor: default;
+            box-shadow: 0 40px 100px rgba(0,0,0,.7);
+            border: 1px solid rgba(255,255,255,.06);
         }
-        
         .close-modal {
-            position: fixed;
-            top: 20px; right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 2001;
+            position: fixed; top: 1.4rem; right: 1.8rem;
+            color: var(--fog); font-size: 1.8rem; cursor: pointer; z-index: 2001;
+            transition: color var(--ease);
+        }
+        .close-modal:hover { color: var(--snow); }
+        .modal-btn {
+            position: fixed; top: 50%; transform: translateY(-50%);
+            background: rgba(19,21,29,.92); color: var(--mist);
+            border: 1px solid rgba(255,255,255,.1);
+            padding: 1rem 1.1rem; font-size: 1rem; cursor: pointer;
+            z-index: 2005; border-radius: var(--radius); transition: all var(--ease);
+            backdrop-filter: blur(6px);
+        }
+        .modal-btn:hover { background: var(--green-glow); border-color: var(--green); color: var(--green-bright); }
+        .modal-btn.prev { left: 1.2rem; }
+        .modal-btn.next { right: 1.2rem; }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            text-align: center; padding: 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,.055);
+            font-family: 'DM Mono', monospace; font-size: .7rem;
+            letter-spacing: .14em; color: rgba(98,107,122,.45);
+        }
+        footer .accent { color: var(--green); opacity: .75; }
+
+        /* ============================================
+           KEYFRAMES
+        ============================================ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- MODAL NAVIGATION --- */
-        .modal-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 2005;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        
-        .modal-btn:hover { background: var(--primary); }
-        .modal-btn.prev { left: 20px; }
-        .modal-btn.next { right: 20px; }
-        
-        /* Prevent closing modal when clicking buttons */
-        .modal-content {
-            cursor: default;
-        }
-        
-        /* Change cursor on carousel images to show they are clickable */
-        .carousel-slide {
-            cursor: zoom-in;
-        }
+        /* ============================================
+           SCROLLBAR & SELECTION
+        ============================================ */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: var(--slate-dark); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--slate-mid); }
+        ::selection { background: rgba(101,200,130,.18); color: var(--snow); }
     </style>
 </head>
 <body>
 
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-glow"></div>
+
+<!-- ========================  HEADER  ======================== -->
 <header>
+
+    <!-- Topography contour lines (white-tinted for snow/rock feel) -->
+    <svg class="topo-bg" viewBox="0 0 1400 560" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="700" cy="580" rx="700" ry="250" stroke="#d4dce6" stroke-width=".8"/>
+        <ellipse cx="700" cy="580" rx="570" ry="196" stroke="#d4dce6" stroke-width=".8"/>
+        <ellipse cx="700" cy="580" rx="450" ry="150" stroke="#d4dce6" stroke-width=".9"/>
+        <ellipse cx="700" cy="580" rx="340" ry="112" stroke="#d4dce6" stroke-width="1"/>
+        <ellipse cx="700" cy="580" rx="238" ry="78"  stroke="#d4dce6" stroke-width="1.1"/>
+        <ellipse cx="700" cy="580" rx="145" ry="48"  stroke="#d4dce6" stroke-width="1.2"/>
+        <path d="M0 490 Q180 450 360 468 Q540 486 700 416 Q860 346 1060 456 Q1220 502 1400 472" stroke="#d4dce6" stroke-width=".6"/>
+        <path d="M0 520 Q200 482 440 498 Q660 514 900 470 Q1100 442 1400 510" stroke="#d4dce6" stroke-width=".5"/>
+    </svg>
+
+    <!-- Mountain silhouette layers -->
+    <svg class="mountain-bg" viewBox="0 0 1400 280" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Far range — navy -->
+        <polygon points="0,280 160,120 300,190 460,68 620,160 780,44 940,130 1100,76 1260,148 1400,98 1400,280" fill="#0e1322"/>
+        <!-- Mid range — dark slate -->
+        <polygon points="0,280 80,196 240,144 420,210 560,108 720,178 890,98 1060,168 1210,120 1400,162 1400,280" fill="#111624"/>
+        <!-- Foreground ridge -->
+        <polygon points="0,280 200,238 420,218 640,244 860,224 1080,240 1300,220 1400,232 1400,280" fill="#0d0f14"/>
+        <!-- Snow caps — crisp white tips -->
+        <polygon points="460,68  490,90  440,92"  fill="rgba(239,243,247,.6)"/>
+        <polygon points="780,44  816,68  752,70"  fill="rgba(239,243,247,.7)"/>
+        <polygon points="1100,76 1130,97 1076,99" fill="rgba(239,243,247,.5)"/>
+        <!-- Tree line hint — green accent -->
+        <path d="M0,244 Q200,232 420,240 Q640,248 860,234 Q1080,220 1300,238 Q1360,242 1400,238 L1400,280 L0,280 Z"
+              fill="rgba(45,65,42,.5)"/>
+    </svg>
+
+    <p class="eyebrow">Engineering Portfolio</p>
     <h1>Misha Goldenberg</h1>
-    <p>Software Developer and Embedded System Hobbyist</p>
-    <div style="margin-top: 1rem;">
-        <a href="https://github.com/protoace" style="color: white; font-size: 1.5rem; margin: 0 10px;"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/misha-goldenberg-98506524b/" style="color: white; font-size: 1.5rem; margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
+    <p class="subtitle">Software Developer &amp; Embedded Systems Hobbyist</p>
+
+    <div class="header-links">
+        <a href="https://github.com/protoace" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://www.linkedin.com/in/misha-goldenberg-98506524b/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
     </div>
 </header>
 
+<!-- Green elevation divider -->
+<div class="elevation-band"></div>
+
+<!-- ========================  PROJECTS  ======================== -->
 <div class="container">
+    <p class="section-label">Selected Work</p>
 
+    <!-- 01 Alarm Clock -->
     <section class="project-card">
+        <span class="card-number">01 / 06</span>
         <div class="project-image-area" id="carousel-7">
-            
-            <img src="finsihed.webp" alt="Finished Retro Wooden Alarm Clock" class="carousel-slide active" onclick="openModal(this)">
-            <img src="box_unfinished.webp" alt="Completed but empty box" class="carousel-slide" onclick="openModal(this)">
-            <img src="breadboard.webp" alt="Prototype breadboard" class="carousel-slide" onclick="openModal(this)">
-            <img src="components.webp" alt="Wires soldered to UX components" class="carousel-slide" onclick="openModal(this)">
-            <img src="perfboard.webp" alt="Perf-board soldering and Arduino Uno" class="carousel-slide" onclick="openModal(this)">
-
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-7', -1)">&#10094;</button>
+            <img src="finsihed.webp"       alt="Finished Retro Wooden Alarm Clock"     class="carousel-slide active" onclick="openModal(this)">
+            <img src="box_unfinished.webp" alt="Completed but empty box"               class="carousel-slide"        onclick="openModal(this)">
+            <img src="breadboard.webp"     alt="Prototype breadboard"                  class="carousel-slide"        onclick="openModal(this)">
+            <img src="components.webp"     alt="Wires soldered to UX components"       class="carousel-slide"        onclick="openModal(this)">
+            <img src="perfboard.webp"      alt="Perf-board soldering and Arduino Uno"  class="carousel-slide"        onclick="openModal(this)">
+            <div class="carousel-dots" id="dots-carousel-7"></div>
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-7',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-7', 1)">&#10095;</button>
         </div>
-
         <div class="project-content">
-            <span class="date"> Feburary 2026</span>
+            <span class="date">February 2026</span>
             <h2>Retro Digital Alarm Clock — Embedded Systems</h2>
-            
-            <div>
-                <span class="tag">Arduino Nano</span>
-                <span class="tag">C++</span>
-                <span class="tag">Circuits</span>
-                <span class="tag">Woodworking</span>
+            <div class="tags">
+                <span class="tag">Arduino Nano</span><span class="tag">C++</span>
+                <span class="tag">Circuits</span><span class="tag">Woodworking</span>
             </div>
-
             <p>A custom-built, retro-styled alarm clock featuring a hand-crafted wooden enclosure and a 4-digit 7-segment display driven by a shift register to minimize pin usage.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Designed and soldered a complete circuit onto a <strong>perf-board</strong>, integrating an Arduino Nano with a shift register to control the 4-digit display multiplexing.</li>
-                <li>Implemented <strong>four analog potentiometers (dials)</strong> to provide tactile control over Volume, Alarm Hour, Alarm Minute, and a Timer.</li>
-                <li>Integrated an external music library to play <strong>10+ custom melodies</strong> via the <code>tone()</code> function, managing state transitions between clock and music modes.</li>
+            <ul>
+                <li>Designed and soldered a complete circuit onto a <strong>perf-board</strong>, integrating an Arduino Nano with a shift register to control display multiplexing.</li>
+                <li>Implemented <strong>four analog potentiometers</strong> for tactile control over Volume, Alarm Hour, Alarm Minute, and Timer.</li>
+                <li>Integrated an external music library to play <strong>10+ custom melodies</strong> via the <code>tone()</code> function with full state management.</li>
                 <li>Fabricated a <strong>custom wooden enclosure</strong> from scratch, blending modern electronics with a vintage aesthetic.</li>
-                <li>Developed logic to handle button interrupts and real-time clock state management without the use of an external RTC module.</li>
+                <li>Developed interrupt-driven logic for button handling and real-time clock state management without an external RTC module.</li>
             </ul>
-
-            <a href="https://github.com/ProtoAce/Arduino-Nano-Alarm-Clock" class="btn"><i class="fab fa-github"></i> View Repo</a>
+            <div class="btn-group">
+                <a href="https://github.com/ProtoAce/Arduino-Nano-Alarm-Clock" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
+            </div>
         </div>
     </section>
-    
+
+    <!-- 02 E-Bike -->
     <section class="project-card">
+        <span class="card-number">02 / 06</span>
         <div class="project-image-area" id="carousel-1">
-            <img src="Bike2.webp" alt="Finished E-Bike" class="carousel-slide active" onclick="openModal(this)">
-            <img src="Bike.webp" alt="Drivetrain and motor assembly" class="carousel-slide" onclick="openModal(this)">
-            <img src="BackMount.webp" alt="Mounting rear components" class="carousel-slide" onclick="openModal(this)">
-            <img src="BatteryHousing.webp" alt="Battery Housing" class="carousel-slide" onclick="openModal(this)">
-            <img src="Cog.webp" alt="Wooden Pulley" class="carousel-slide" onclick="openModal(this)">
-            <img src="Motor.webp" alt="Motor testing" class="carousel-slide" onclick="openModal(this)">
-            <img src="Throttle.webp" alt="Throttle assembly" class="carousel-slide" onclick="openModal(this)">
-            <img src="Welder.webp" alt="Welder Testing" class="carousel-slide" onclick="openModal(this)">
-            <img src="WelderDoneF.webp" alt="Welder Finished Front" class="carousel-slide" onclick="openModal(this)">
-            <img src="WelderDoneB.webp" alt="Welder Finished Back" class="carousel-slide" onclick="openModal(this)">
-            <img src="Wiring1.webp" alt="Wiring1" class="carousel-slide" onclick="openModal(this)">
-            <img src="Wiring2.webp" alt="Wiring2" class="carousel-slide" onclick="openModal(this)">
-        
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-1', -1)">&#10094;</button>
+            <img src="Bike2.webp"          alt="Finished E-Bike"              class="carousel-slide active" onclick="openModal(this)">
+            <img src="Bike.webp"           alt="Drivetrain and motor"         class="carousel-slide"        onclick="openModal(this)">
+            <img src="BackMount.webp"      alt="Mounting rear components"     class="carousel-slide"        onclick="openModal(this)">
+            <img src="BatteryHousing.webp" alt="Battery Housing"              class="carousel-slide"        onclick="openModal(this)">
+            <img src="Cog.webp"            alt="Wooden Pulley"                class="carousel-slide"        onclick="openModal(this)">
+            <img src="Motor.webp"          alt="Motor testing"                class="carousel-slide"        onclick="openModal(this)">
+            <img src="Throttle.webp"       alt="Throttle assembly"            class="carousel-slide"        onclick="openModal(this)">
+            <img src="Welder.webp"         alt="Welder Testing"               class="carousel-slide"        onclick="openModal(this)">
+            <img src="WelderDoneF.webp"    alt="Welder Finished Front"        class="carousel-slide"        onclick="openModal(this)">
+            <img src="WelderDoneB.webp"    alt="Welder Finished Back"         class="carousel-slide"        onclick="openModal(this)">
+            <img src="Wiring1.webp"        alt="Wiring 1"                     class="carousel-slide"        onclick="openModal(this)">
+            <img src="Wiring2.webp"        alt="Wiring 2"                     class="carousel-slide"        onclick="openModal(this)">
+            <div class="carousel-dots" id="dots-carousel-1"></div>
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-1',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-1', 1)">&#10095;</button>
         </div>
         <div class="project-content">
-            <span class="date">May 2025 - July 2025</span>
+            <span class="date">May 2025 – July 2025</span>
             <h2>From Junkyard to Joyride — DIY Electric Bike</h2>
-            
-            <div>
-                <span class="tag">VESC Firmware</span>
-                <span class="tag">Power Electronics</span>
-                <span class="tag">Fabrication</span>
-                <span class="tag">Embedded Systems</span>
+            <div class="tags">
+                <span class="tag">VESC Firmware</span><span class="tag">Power Electronics</span>
+                <span class="tag">Fabrication</span><span class="tag">Embedded Systems</span>
             </div>
-
             <p>Built a custom high-performance e-bike from scratch on a $250 budget. Capable of 55 km/h with over 400 km of real-world testing.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
+            <ul>
                 <li>Rewired a <strong>2012 Jeep alternator</strong> into a powerful traction motor.</li>
                 <li>Built a 12Ah Samsung 30T battery pack with a custom spot welder.</li>
                 <li>Programmed a <strong>VESC motor controller</strong> with custom firmware for multiple speed modes and automatic brake-based motor cutoff.</li>
-                <li>Fabricated a steel mounting frame and 16-inch wooden belt pulley.</li>
+                <li>Fabricated a steel mounting frame and a 16-inch wooden belt pulley.</li>
             </ul>
-
-            <!-- <a href="#" class="btn"><i class="fab fa-github"></i> View Repository</a> -->
         </div>
     </section>
-    <section class="project-card">
-        <div class="project-image-area" id="carousel-2">
-            
-            <img src="calendar view.png" alt="CourseCraft Dashboard" class="carousel-slide active", onclick="openModal(this)">
-            <img src="course selection.png" alt="Course Selection" class="carousel-slide", onclick="openModal(this)">
-            <img src="optimizer.png" alt="Optimization options" class="carousel-slide", onclick="openModal(this)">
 
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-2', -1)">&#10094;</button>
+    <!-- 03 CourseCraft -->
+    <section class="project-card">
+        <span class="card-number">03 / 06</span>
+        <div class="project-image-area" id="carousel-2">
+            <img src="calendar view.png"    alt="CourseCraft Dashboard"  class="carousel-slide active" onclick="openModal(this)">
+            <img src="course selection.png" alt="Course Selection"       class="carousel-slide"        onclick="openModal(this)">
+            <img src="optimizer.png"        alt="Optimization options"   class="carousel-slide"        onclick="openModal(this)">
+            <div class="carousel-dots" id="dots-carousel-2"></div>
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-2',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-2', 1)">&#10095;</button>
         </div>
-
         <div class="project-content">
             <span class="date">November 2025</span>
             <h2>CourseCraft — SFU Schedule Optimizer</h2>
-            
-            <div>
-                <span class="tag">React</span>
-                <span class="tag">Python</span>
-                <span class="tag">Google OR-Tools</span>
-                <span class="tag">REST API</span>
+            <div class="tags">
+                <span class="tag">React</span><span class="tag">Python</span>
+                <span class="tag">Google OR-Tools</span><span class="tag">REST API</span>
                 <span class="tag">Algorithm Design</span>
             </div>
-
             <p>A smart scheduling tool for SFU students that uses constraint programming to automate the tedious process of manual timetable planning.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Developed a high-performance optimizer using the <strong>Google SAT solver</strong> to minimize schedule gaps and reduce the number of days spent on campus.</li>
-                <li>Engineered a responsive <strong>React web application</strong> providing an intuitive UI for students to set preferences and visualize their optimized timetables.</li>
-                <li>Integrated and parsed live data from the <strong>SFU API</strong>, implementing a caching layer to ensure fast response times and up-to-date course info.</li>
+            <ul>
+                <li>Developed a high-performance optimizer using the <strong>Google SAT solver</strong> to minimize schedule gaps and reduce campus days.</li>
+                <li>Engineered a responsive <strong>React web application</strong> for students to set preferences and visualize their optimized timetables.</li>
+                <li>Integrated live data from the <strong>SFU API</strong> with a caching layer ensuring fast response times and up-to-date course info.</li>
             </ul>
-
-            <a href="https://github.com/ProtoAce/Schedule-Builder" class="btn"><i class="fab fa-github"></i> View Repo</a>
-            <!-- <a href="#" class="btn btn-outline">Live Demo</a> -->
+            <div class="btn-group">
+                <a href="https://github.com/ProtoAce/Schedule-Builder" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
+            </div>
         </div>
     </section>
-    <section class="project-card">
-        <div class="project-image-area" id="carousel-4">
-            
-            <img src="discordjs.png" alt="React Analytics Dashboard" class="carousel-slide active" onclick="openModal(this)">
 
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-4', -1)">&#10094;</button>
+    <!-- 04 Sentiment Bot -->
+    <section class="project-card">
+        <span class="card-number">04 / 06</span>
+        <div class="project-image-area" id="carousel-4">
+            <img src="discordjs.png" alt="Discord Sentiment Bot" class="carousel-slide active" onclick="openModal(this)">
+            <div class="carousel-dots" id="dots-carousel-4"></div>
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-4',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-4', 1)">&#10095;</button>
         </div>
-
         <div class="project-content">
             <span class="date">September 2024</span>
-            <h2>Sentiment Bot — Real-time NLP & Analytics</h2>
-            
-            <div>
-                <span class="tag">Node.js</span>
-                <span class="tag">React</span>
-                <span class="tag">MySQL</span>
-                <span class="tag">VADER NLP</span>
-                <span class="tag">Express</span>
+            <h2>Sentiment Bot — Real-time NLP &amp; Analytics</h2>
+            <div class="tags">
+                <span class="tag">Node.js</span><span class="tag">React</span>
+                <span class="tag">MySQL</span><span class="tag">VADER NLP</span><span class="tag">Express</span>
             </div>
-
             <p>An advanced Discord integration that monitors community health by analyzing the sentiment of text and voice communications in real-time.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Developed a <strong>Discord.js bot</strong> using <strong>VADER Sentiment Analysis</strong> to calculate message polarity and track user emotional trends.</li>
-                <li>Engineered a <strong>React.js web portal</strong> featuring an <strong>Express.js REST API</strong> to visualize user statistics and dynamic leaderboards.</li>
-                <li>Implemented <strong>Coqui STT (Speech-to-Text)</strong> integration to extend sentiment analysis capabilities to voice channels.</li>
-                <li>Designed a <strong>MySQL relational database</strong> schema to efficiently store and query historical analysis data for long-term trend reporting.</li>
+            <ul>
+                <li>Developed a <strong>Discord.js bot</strong> using <strong>VADER Sentiment Analysis</strong> to calculate message polarity and track emotional trends.</li>
+                <li>Engineered a <strong>React.js web portal</strong> with an <strong>Express.js REST API</strong> for user statistics and dynamic leaderboards.</li>
+                <li>Implemented <strong>Coqui STT</strong> integration to extend sentiment analysis to voice channels.</li>
+                <li>Designed a <strong>MySQL relational database</strong> schema for historical analysis data and long-term trend reporting.</li>
             </ul>
-
-            <a href="https://github.com/spektrumm/socialCredit" class="btn"><i class="fab fa-github"></i> View Repo</a>
+            <div class="btn-group">
+                <a href="https://github.com/spektrumm/socialCredit" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
+            </div>
         </div>
     </section>
-    <section class="project-card">
-        <div class="project-image-area" id="carousel-6">
-            
-            <img src="ReportPic.png" alt="Compression Ratio Analysis" class="carousel-slide active" onclick="openModal(this)">
 
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-6', -1)">&#10094;</button>
+    <!-- 05 Compression Analysis -->
+    <section class="project-card">
+        <span class="card-number">05 / 06</span>
+        <div class="project-image-area" id="carousel-6">
+            <img src="ReportPic.png" alt="Compression Ratio Analysis" class="carousel-slide active" onclick="openModal(this)">
+            <div class="carousel-dots" id="dots-carousel-6"></div>
+            <button class="carousel-btn prev" onclick="moveSlide('carousel-6',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-6', 1)">&#10095;</button>
         </div>
-
         <div class="project-content">
-            <span class="date">July - August 2023</span>
-            <h2>Python Compression & ML Analysis (Course Project)</h2>
-            
-            <div>
-                <span class="tag">Python</span>
-                <span class="tag">Machine Learning</span>
-                <span class="tag">Pandas</span>
-                <span class="tag">Statistics (ANOVA)</span>
-                <span class="tag">Random Forest</span>
+            <span class="date">July – August 2023</span>
+            <h2>Python Compression &amp; ML Analysis</h2>
+            <div class="tags">
+                <span class="tag">Python</span><span class="tag">Machine Learning</span>
+                <span class="tag">Pandas</span><span class="tag">ANOVA</span><span class="tag">Random Forest</span>
             </div>
-
-            <p>An in-depth study comparing gzip, zlib, bz2, and lzma algorithms to determine optimal compression strategies across different storage media (HDD, SSD, NVMe).</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Generated a comprehensive dataset of <strong>7,000 data points</strong> tracking compression speeds, ratios, and decompression times for 2.2GB of diverse file types.</li>
-                <li>Utilized <strong>ANOVA and Tukey HSD tests</strong> with Bonferroni correction to statistically prove performance differences based on storage type and algorithm.</li>
-                <li>Trained multiple ML models, including <strong>Random Forest and MLP Regressors</strong>, to predict the best compression method with a <strong>95.6% testing accuracy</strong>.</li>
-                <li>Analyzed hardware impacts, discovering significant performance variances when compressing on <strong>HDD vs. NVMe</strong> storage.</li>
+            <p>An in-depth study comparing gzip, zlib, bz2, and lzma algorithms to determine optimal compression strategies across HDD, SSD, and NVMe storage.</p>
+            <ul>
+                <li>Generated a dataset of <strong>7,000 data points</strong> tracking compression speeds, ratios, and decompression times for 2.2GB of diverse file types.</li>
+                <li>Applied <strong>ANOVA and Tukey HSD tests</strong> with Bonferroni correction to statistically prove performance differences between configurations.</li>
+                <li>Trained <strong>Random Forest and MLP Regressors</strong> to predict the best compression method with <strong>95.6% testing accuracy</strong>.</li>
+                <li>Identified significant performance variances when compressing on <strong>HDD vs. NVMe</strong> storage.</li>
             </ul>
-
-            <a href="report.pdf" target="_blank" class="btn"><i class="fas fa-file-pdf"></i> Read Full Report</a>
-            <a href="https://github.com/ProtoAce/CMPT353-Compression-Analysis" class="btn btn-outline"><i class="fab fa-github"></i> View Code</a>
+            <div class="btn-group">
+                <a href="report.pdf" target="_blank" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Read Report</a>
+                <a href="https://github.com/ProtoAce/CMPT353-Compression-Analysis" class="btn btn-secondary"><i class="fab fa-github"></i> View Code</a>
+            </div>
         </div>
     </section>
+
+    <!-- 06 Hidden Squirrel -->
     <section class="project-card">
+        <span class="card-number">06 / 06</span>
         <div class="project-image-area" id="carousel-5">
             <a href="https://youtu.be/dsr-AFdutEQ" target="_blank" class="video-thumbnail-link">
                 <img src="squirrel.png" alt="Hidden Squirrel Gameplay" class="carousel-slide active">
-                
                 <div class="play-overlay">
                     <i class="fas fa-play-circle"></i>
                     <span>Watch Gameplay</span>
                 </div>
             </a>
         </div>
-
         <div class="project-content">
-            <span class="date">October 2022 - January 2023</span>
-            <h2>Hidden Squirrel — 2D Escape Arcade (Course Project)</h2>
-            
-            <div>
-                <span class="tag">Java</span> <span class="tag">BFS Pathfinding</span>
+            <span class="date">October 2022 – January 2023</span>
+            <h2>Hidden Squirrel — 2D Escape Arcade</h2>
+            <div class="tags">
+                <span class="tag">Java</span><span class="tag">BFS Pathfinding</span>
                 <span class="tag">Procedural Generation</span>
             </div>
-
             <p>A Pac-Man inspired stealth-arcade game where a squirrel must navigate a maze while evading bears using advanced pathfinding and stealth mechanics.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Engineered the <strong>Bear AI pathfinding</strong> using a shortest-path algorithm to create a persistent and challenging pursuit mechanic.</li>
-                <li>Developed a <strong>procedural map generation</strong> system that ensures all generated levels are valid, playable, and free of closed loops/dead-ends.</li>
-                <li>Implemented <strong>stealth-based randomization</strong>; when the squirrel is hidden, AI movement transitions to a randomized search pattern to simulate "searching."</li>
-                <li>Created fluid <strong>character animations</strong> for movement and state changes, enhancing the visual feedback and game feel.</li>
+            <ul>
+                <li>Engineered <strong>Bear AI pathfinding</strong> using a shortest-path algorithm to create a persistent, challenging pursuit mechanic.</li>
+                <li>Developed a <strong>procedural map generation</strong> system ensuring all levels are valid, playable, and free of dead-ends.</li>
+                <li>Implemented <strong>stealth-based randomization</strong> — when the squirrel is hidden, AI transitions to a randomized search pattern.</li>
+                <li>Created fluid <strong>character animations</strong> for movement and state changes, enhancing game feel.</li>
             </ul>
-
-            <a href="https://github.com/ProtoAce/2D-Arcade-Game" class="btn"><i class="fab fa-github"></i> View Repo</a>
-        </div>
-    </section>
-    <section class="project-card">
-        <div class="project-image-area" id="carousel-3">
-            
-            <img src="titlescreen.png" alt="Hand-drawn Photoshop Assets" class="carousel-slide", onclick="openModal(this)">
-            <img src="gameplay.png" alt="Meteor Strike Gameplay" class="carousel-slide active", onclick="openModal(this)">
-            <!-- <img src="meteor-code.jpg" alt="C++ OOP Structure" class="carousel-slide"> -->
-
-            <button class="carousel-btn prev" onclick="moveSlide('carousel-3', -1)">&#10094;</button>
-            <button class="carousel-btn next" onclick="moveSlide('carousel-3', 1)">&#10095;</button>
-        </div>
-
-        <div class="project-content">
-            <span class="date">November 2021</span>
-            <h2>Meteor Strike — C++ Arcade Game</h2>
-            
-            <div>
-                <span class="tag">C++</span>
-                <span class="tag">SFML</span>
-                <span class="tag">OOP</span>
-                <span class="tag">Game Dev</span>
-                <span class="tag">Photoshop</span>
+            <div class="btn-group">
+                <a href="https://github.com/ProtoAce/2D-Arcade-Game" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
             </div>
-
-            <p>My first major personal project: a 2D arcade shooter inspired by classics like Asteroids, built with a focus on clean Object-Oriented design and responsive gameplay.</p>
-            
-            <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                <li>Implemented the <strong>SFML (Simple and Fast Multimedia Library)</strong> for hardware-accelerated 2D graphics and spatial sound effects.</li>
-                <li>Leveraged <strong>Object-Oriented Programming (OOP)</strong> to create a modular entity system, allowing for easy expansion of game objects and state management.</li>
-                <li>Designed a <strong>difficulty scaling algorithm</strong> that dynamically adjusts meteor frequency and speed based on the player's score to maintain "flow state."</li>
-                <li>Collaborated on visual design, creating custom sprites and backgrounds in <strong>Photoshop CC</strong> for a unique hand-drawn aesthetic.</li>
-                <li>Optimized collision detection and conducted a beta test with a small group of users to refine gameplay balance and squash bugs.</li>
-            </ul>
-
-            <a href="https://github.com/ProtoAce/MeteorStrike" class="btn"><i class="fab fa-github"></i> View Repo</a>
         </div>
     </section>
+
 </div>
 
-<footer style="text-align: center; padding: 4rem; color: #94a3b8;">
-    <p>&copy; 2026 Misha Goldenberg. Built with curiosity.</p>
+<!-- ========================  FOOTER  ======================== -->
+<footer>
+    <p>&copy; 2026 Misha Goldenberg &nbsp;·&nbsp; Built with <span class="accent">curiosity</span></p>
 </footer>
 
-
-<script>
-    function moveSlide(carouselId, direction) {
-        // 1. Find the specific carousel container by its ID
-        const container = document.getElementById(carouselId);
-        
-        // 2. Get all images within this specific container
-        const slides = container.getElementsByClassName('carousel-slide');
-        let activeIndex = -1;
-
-        // 3. Find which image is currently active
-        for (let i = 0; i < slides.length; i++) {
-            if (slides[i].classList.contains('active')) {
-                activeIndex = i;
-                break;
-            }
-        }
-
-        // 4. Remove active class from current image
-        slides[activeIndex].classList.remove('active');
-
-        // 5. Calculate next index (handling wrapping around start/end)
-        let nextIndex = activeIndex + direction;
-        if (nextIndex >= slides.length) {
-            nextIndex = 0; // Wrap to beginning
-        } else if (nextIndex < 0) {
-            nextIndex = slides.length - 1; // Wrap to end
-        }
-
-        // 6. Add active class to the new image
-        slides[nextIndex].classList.add('active');
-    }
-    let currentModalCarouselId = "";
-
-    function openModal(imgElement) {
-        const modal = document.getElementById("imageModal");
-        const fullImg = document.getElementById("fullImage");
-        
-        // Save the ID of the parent carousel so we know which set of images to flip through
-        currentModalCarouselId = imgElement.parentElement.id;
-        
-        modal.style.display = "block";
-        fullImg.src = imgElement.src;
-    }
-    
-    function closeModal() {
-        document.getElementById("imageModal").style.display = "none";
-    }
-    
-    // Close modal if user clicks the dark background (but not the image/buttons)
-    window.onclick = function(event) {
-        const modal = document.getElementById("imageModal");
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
-    
-    function moveModal(direction) {
-        // 1. Reuse your existing moveSlide logic to change the "active" slide in the background
-        moveSlide(currentModalCarouselId, direction);
-        
-        // 2. Find the newly activated image and update the modal view
-        const container = document.getElementById(currentModalCarouselId);
-        const activeImg = container.querySelector('.carousel-slide.active');
-        document.getElementById("fullImage").src = activeImg.src;
-    }
-</script>
+<!-- ========================  MODAL  ======================== -->
 <div id="imageModal" class="modal">
     <span class="close-modal" onclick="closeModal()">&times;</span>
-    
     <button class="modal-btn prev" onclick="moveModal(-1)">&#10094;</button>
     <button class="modal-btn next" onclick="moveModal(1)">&#10095;</button>
-    
-    <img class="modal-content" id="fullImage">
+    <img class="modal-content" id="fullImage" alt="Enlarged project image">
 </div>
+
+<!-- ========================  JS  ======================== -->
+<script>
+/* ---- Cursor — unified hover state ---- */
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+const glow = document.getElementById('cursor-glow');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let rx = mx, ry = my;
+
+document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    glow.style.left = mx + 'px';
+    glow.style.top  = my + 'px';
+});
+
+(function animRing() {
+    rx += (mx - rx) * 0.11;
+    ry += (my - ry) * 0.11;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+})();
+
+// Attach hover listeners to EVERY interactive element (header + body + modal)
+function attachHover() {
+    document.querySelectorAll('a, button, [onclick], .tag, .close-modal').forEach(el => {
+        if (!el._cursorBound) {
+            el.addEventListener('mouseenter', () => document.body.classList.add('is-hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('is-hovering'));
+            el._cursorBound = true;
+        }
+    });
+}
+attachHover();
+
+/* ---- Carousel ---- */
+function buildDots(id) {
+    const c = document.getElementById(id); if (!c) return;
+    const slides = c.getElementsByClassName('carousel-slide');
+    const d = document.getElementById('dots-' + id); if (!d) return;
+    if (slides.length <= 1) { d.style.display = 'none'; return; }
+    for (let i = 0; i < slides.length; i++) {
+        const s = document.createElement('span');
+        if (slides[i].classList.contains('active')) s.classList.add('active-dot');
+        d.appendChild(s);
+    }
+}
+function updateDots(id, idx) {
+    const d = document.getElementById('dots-' + id); if (!d) return;
+    for (const s of d.children) s.classList.remove('active-dot');
+    if (d.children[idx]) d.children[idx].classList.add('active-dot');
+}
+function moveSlide(id, dir) {
+    const c = document.getElementById(id);
+    const slides = c.getElementsByClassName('carousel-slide');
+    let active = 0;
+    for (let i = 0; i < slides.length; i++) if (slides[i].classList.contains('active')) { active = i; break; }
+    slides[active].classList.remove('active');
+    const next = (active + dir + slides.length) % slides.length;
+    slides[next].classList.add('active');
+    updateDots(id, next);
+}
+['carousel-7','carousel-1','carousel-2','carousel-4','carousel-6'].forEach(buildDots);
+
+/* ---- Modal ---- */
+let currentCarousel = '';
+function openModal(img) {
+    currentCarousel = img.parentElement.id;
+    document.getElementById('fullImage').src = img.src;
+    document.getElementById('imageModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    attachHover(); // re-bind in case modal elements weren't in DOM
+}
+function closeModal() {
+    document.getElementById('imageModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+function moveModal(dir) {
+    moveSlide(currentCarousel, dir);
+    document.getElementById('fullImage').src =
+        document.getElementById(currentCarousel).querySelector('.carousel-slide.active').src;
+}
+document.getElementById('imageModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('imageModal')) closeModal();
+});
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('imageModal').classList.contains('open')) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  moveModal(-1);
+    if (e.key === 'ArrowRight') moveModal(1);
+});
+
+/* ---- Scroll reveal ---- */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.project-card').forEach((card, i) => {
+    card.style.transitionDelay = i * 0.04 + 's';
+    observer.observe(card);
+});
+</script>
 </body>
 </html>
