@@ -7,54 +7,61 @@
     <title>Misha Goldenberg — Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* ============================================
-           DESIGN TOKENS
-           BASE:       deep charcoal / cold slate / near-black
-           ACCENT:     forest green (intentional, sparse)
-           SUPPORT:    snow, rock gray, navy, amber
-        ============================================ */
+        /* ═══════════════════════════════════════════════
+           DESIGN TOKENS  v3  ·  Alpine Winter System
+           Base:    deep charcoal — NOT near-black
+           Text:    high-contrast snow/ice hierarchy
+           Accent:  forest green — intentional, vivid
+           Support: slate rock, amber warmth, navy cold
+        ═══════════════════════════════════════════════ */
         :root {
-            /* Backgrounds */
-            --bg-base:    #0d0f14;
-            --bg-deep:    #08090d;
-            --bg-card:    #13151d;
-            --bg-raised:  #181b26;
-            --bg-hover:   #1c2030;
+            /* ── Backgrounds (stepped lightness) */
+            --bg-base:   #161b24;   /* main body — deep charcoal-slate, not black */
+            --bg-deep:   #111520;   /* image wells, deepest recesses */
+            --bg-card:   #1c2230;   /* card surface — visible lift from base */
+            --bg-hover:  #222840;   /* card hover — clear step up */
+            --bg-subtle: #202635;   /* section breaks */
 
-            /* Slate / rock grays */
-            --slate-dark: #222636;
-            --slate-mid:  #38405a;
-            --slate-lite: #5a637a;
+            /* ── Rock / slate grays */
+            --rock-dark: #2c3347;
+            --rock-mid:  #424f68;
+            --rock-lite: #68789a;
 
-            /* Snow & ice */
-            --snow:       #eff3f7;
-            --snowfield:  #d4dce6;
-            --mist:       #9aa3b0;
-            --fog:        #626b7a;
+            /* ── Snow & ice hierarchy (TEXT) */
+            --snow:      #f0f4f8;   /* h1, hero name — near white */
+            --ice:       #d8e2ee;   /* h2 card titles */
+            --frost:     #b0bdd0;   /* body paragraph text */
+            --mist:      #8494ac;   /* list items, secondary */
+            --haze:      #5a6880;   /* muted labels, fog */
 
-            /* Forest green — ACCENT ONLY */
-            --green:        #4fa86d;
-            --green-bright: #65c882;
-            --green-glow:   rgba(79, 168, 109, 0.13);
-            --green-border: rgba(79, 168, 109, 0.28);
+            /* ── Forest green — ACCENT, vivid */
+            --green:        #52b870;
+            --green-hi:     #6dd98a;   /* hover / bright state */
+            --green-lo:     rgba(82, 184, 112, 0.14);
+            --green-rim:    rgba(82, 184, 112, 0.32);
+            --green-glow:   rgba(82, 184, 112, 0.08);
 
-            /* Cold navy */
-            --navy:       #111828;
+            /* ── Amber / alpine gold */
+            --amber:     #d4aa6a;
+            --amber-lo:  rgba(212, 170, 106, 0.12);
 
-            /* Amber warmth */
-            --amber:      #c8a66c;
-            --amber-glow: rgba(200, 166, 108, 0.13);
+            /* ── Cold navy */
+            --navy:      #131a2e;
+
+            /* ── Snow-light (soft white glow for breathing space) */
+            --snowlight: rgba(220, 232, 248, 0.05);
 
             --radius:      4px;
-            --card-radius: 8px;
-            --ease:        220ms cubic-bezier(0.4, 0, 0.2, 1);
+            --card-radius: 10px;
+            --ease:        200ms cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out:    320ms cubic-bezier(0.0, 0, 0.2, 1);
         }
 
-        /* ---- reset ---- */
+        /* ── Reset ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
@@ -62,204 +69,252 @@
             font-family: 'DM Sans', sans-serif;
             font-weight: 300;
             background: var(--bg-base);
-            color: var(--mist);
-            line-height: 1.7;
+            color: var(--frost);
+            line-height: 1.72;
             cursor: none;
             overflow-x: hidden;
         }
 
-        /* ============================================
-           CURSOR — site-wide consistent
-        ============================================ */
-        #cursor-dot {
-            width: 7px; height: 7px;
-            background: var(--green-bright);
-            border-radius: 50%;
-            position: fixed; pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%,-50%);
-            transition: width .18s, height .18s, background .18s;
-            will-change: left, top;
-        }
-        #cursor-ring {
-            width: 32px; height: 32px;
-            border: 1.5px solid rgba(101, 200, 130, 0.4);
-            border-radius: 50%;
-            position: fixed; pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%,-50%);
-            will-change: left, top;
-            transition: width .28s, height .28s, border-color .28s;
-        }
-        #cursor-glow {
-            width: 560px; height: 560px;
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 1;
-            background: radial-gradient(circle, rgba(79,168,109,.04) 0%, transparent 65%);
-            transform: translate(-50%,-50%);
-            will-change: left, top;
-        }
-        body.is-hovering #cursor-dot  { width: 10px; height: 10px; background: var(--amber); }
-        body.is-hovering #cursor-ring { width: 46px; height: 46px; border-color: rgba(200,166,108,.5); }
+        /* ═══════════════════════════════════════════════
+           CUSTOM CURSOR  ·  Alpine ring system
+           cursor: none everywhere — custom handles all
+           Idle:    small green dot + slow ring
+           Hover:   ring expands with green glow pulse
+           No pointer-finger ever appears
+        ═══════════════════════════════════════════════ */
 
-        /* ============================================
-           GRAIN OVERLAY
-        ============================================ */
+        /* Hide native cursor everywhere including on buttons/links */
+        *, *:hover { cursor: none !important; }
+
+        #cur-dot {
+            position: fixed; z-index: 9999; pointer-events: none;
+            width: 6px; height: 6px;
+            background: var(--green-hi);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            will-change: left, top;
+            transition: width .15s var(--ease), height .15s var(--ease),
+                        background .2s, opacity .2s;
+        }
+        #cur-ring {
+            position: fixed; z-index: 9998; pointer-events: none;
+            width: 30px; height: 30px;
+            border: 1.5px solid rgba(109, 217, 138, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            will-change: left, top;
+            transition: width .3s var(--ease-out), height .3s var(--ease-out),
+                        border-color .3s, box-shadow .3s, background .3s;
+        }
+        /* #cur-glow {
+            position: fixed; z-index: 1; pointer-events: none;
+            width: 480px; height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(82,184,112,.055) 0%, transparent 62%);
+            transform: translate(-50%,-50%);
+            will-change: left, top;
+        } */
+
+        /* Hover state — green pulse ring, no dot change */
+        body.hovering #cur-ring {
+            width: 44px; height: 44px;
+            border-color: rgba(109, 217, 138, 0.75);
+            box-shadow: 0 0 14px rgba(109, 217, 138, 0.22),
+                        0 0 28px rgba(109, 217, 138, 0.10);
+            background: rgba(109, 217, 138, 0.04);
+        }
+        body.hovering #cur-dot {
+            background: var(--snow);
+            width: 4px; height: 4px;
+        }
+
+        /* Click state */
+        body.clicking #cur-ring {
+            width: 24px; height: 24px;
+            border-color: rgba(109, 217, 138, 1);
+            transition-duration: .08s;
+        }
+
+        /* ═══════════════════════════════════════════════
+           GRAIN + NOISE
+        ═══════════════════════════════════════════════ */
         body::before {
             content: ''; position: fixed; inset: 0;
-            pointer-events: none; z-index: 0; opacity: .022;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 200px;
+            pointer-events: none; z-index: 0; opacity: .018;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px;
         }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            HEADER
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         header {
             position: relative;
-            padding: 7.5rem 2rem 7rem;
+            padding: 8rem 2rem 7rem;
             text-align: center;
-            background: linear-gradient(170deg, #070b12 0%, #0b0e17 50%, var(--bg-base) 100%);
+            /* Layered cold-air gradient: navy top → charcoal blend */
+            background:
+                linear-gradient(180deg, rgba(220,232,248,.025) 0%, transparent 18%),
+                linear-gradient(170deg, #0e1320 0%, #141928 40%, var(--bg-base) 100%);
             overflow: hidden;
-            border-bottom: 1px solid rgba(101,200,130,.09);
+            border-bottom: 1px solid rgba(82,184,112,.12);
         }
 
-        /* snow highlight top */
-        header::before {
-            content: ''; position: absolute; inset-inline: 0; top: 0; height: 70px;
-            background: linear-gradient(to bottom, rgba(239,243,247,.018) 0%, transparent 100%);
-            pointer-events: none;
-        }
-        /* fog fade to body */
+        /* Fog-to-body transition */
         header::after {
-            content: ''; position: absolute; inset-inline: 0; bottom: 0; height: 160px;
+            content: ''; position: absolute; inset-inline: 0; bottom: 0; height: 180px;
             background: linear-gradient(to top, var(--bg-base) 0%, transparent 100%);
-            pointer-events: none;
+            pointer-events: none; z-index: 1;
         }
 
-        /* Topography contour SVG */
-        .topo-bg {
+        /* Topographic contour lines */
+        .topo-svg {
             position: absolute; inset: 0; width: 100%; height: 100%;
-            pointer-events: none; opacity: .06;
+            pointer-events: none; opacity: .07;
         }
 
         /* Mountain silhouette */
-        .mountain-bg {
+        .mtn-svg {
             position: absolute; bottom: 0; left: 0; right: 0;
-            width: 100%; pointer-events: none;
-            display: block;
+            width: 100%; display: block; pointer-events: none;
         }
 
+        /* Header text */
         header .eyebrow {
             font-family: 'DM Mono', monospace;
-            font-size: .68rem; letter-spacing: .26em; text-transform: uppercase;
-            color: var(--green); margin-bottom: 1.4rem;
+            font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
+            color: var(--green); margin-bottom: 1.5rem;
             position: relative; z-index: 2;
-            opacity: 0; animation: fadeUp .8s .2s forwards;
+            opacity: 0; animation: riseIn .9s .15s forwards;
         }
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 500;
-            color: var(--snow); letter-spacing: -.022em; line-height: 1.1;
+            font-size: clamp(2.8rem, 6.5vw, 4.6rem); font-weight: 500;
+            color: var(--snow); letter-spacing: -.025em; line-height: 1.08;
             position: relative; z-index: 2;
-            opacity: 0; animation: fadeUp .8s .4s forwards;
+            /* Snow-light text glow */
+            text-shadow: 0 0 60px rgba(220,232,248,.15), 0 2px 12px rgba(0,0,0,.4);
+            opacity: 0; animation: riseIn .9s .32s forwards;
         }
         header .subtitle {
-            margin-top: .9rem; font-size: .98rem; font-weight: 300;
-            color: var(--fog); letter-spacing: .06em;
+            margin-top: 1rem; font-size: 1rem; font-weight: 300;
+            color: var(--mist); letter-spacing: .07em;
             position: relative; z-index: 2;
-            opacity: 0; animation: fadeUp .8s .6s forwards;
+            opacity: 0; animation: riseIn .9s .5s forwards;
         }
+
         .header-links {
-            margin-top: 2.2rem; display: flex; gap: 1rem; justify-content: center;
+            margin-top: 2.4rem; display: flex; gap: 1rem; justify-content: center;
             position: relative; z-index: 2;
-            opacity: 0; animation: fadeUp .8s .8s forwards;
+            opacity: 0; animation: riseIn .9s .68s forwards;
         }
         .header-links a {
-            display: inline-flex; align-items: center; gap: .48rem;
+            display: inline-flex; align-items: center; gap: .5rem;
             font-family: 'DM Mono', monospace;
             font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
-            color: var(--mist); text-decoration: none;
-            padding: .58rem 1.3rem;
-            border: 1px solid rgba(255,255,255,.1);
+            color: var(--frost); text-decoration: none;
+            padding: .62rem 1.4rem;
+            border: 1px solid rgba(176, 189, 208, 0.18);
             border-radius: var(--radius);
-            background: rgba(255,255,255,.025);
-            transition: border-color var(--ease), color var(--ease), background var(--ease);
+            background: rgba(255,255,255,.04);
+            transition: border-color var(--ease), color var(--ease),
+                        background var(--ease), box-shadow var(--ease);
         }
         .header-links a:hover {
             border-color: var(--green);
-            color: var(--green-bright);
-            background: var(--green-glow);
+            color: var(--green-hi);
+            background: var(--green-lo);
+            box-shadow: 0 0 16px rgba(82,184,112,.15);
         }
 
-        /* GREEN elevation divider */
+        /* ── Green elevation band divider */
         .elevation-band {
             height: 2px;
-            background: linear-gradient(to right,
-                transparent 0%,
-                rgba(101,200,130,.25) 25%,
-                rgba(101,200,130,.55) 50%,
-                rgba(101,200,130,.25) 75%,
-                transparent 100%);
+            background: linear-gradient(90deg,
+                transparent 0%, rgba(82,184,112,.3) 20%,
+                rgba(82,184,112,.65) 50%,
+                rgba(82,184,112,.3) 80%, transparent 100%);
         }
 
-        /* ============================================
+        /* ── Snow-light strip just below divider */
+        .snowlight-strip {
+            height: 64px;
+            background: linear-gradient(to bottom,
+                rgba(220,232,248,.042) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* ═══════════════════════════════════════════════
            SECTION LABEL
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         .section-label {
             font-family: 'DM Mono', monospace;
-            font-size: .67rem; letter-spacing: .24em; text-transform: uppercase;
+            font-size: .67rem; letter-spacing: .25em; text-transform: uppercase;
             color: var(--green);
             display: flex; align-items: center; gap: 1rem;
-            margin-bottom: 2.8rem;
-            opacity: 0; animation: fadeUp .7s .1s both;
+            margin-bottom: 3rem;
+            opacity: 0; animation: riseIn .7s .1s both;
         }
         .section-label::after {
             content: ''; flex: 1; height: 1px;
-            background: linear-gradient(to right, rgba(101,200,130,.22), transparent);
+            background: linear-gradient(to right, rgba(82,184,112,.28), transparent);
         }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            CONTAINER
-        ============================================ */
-        .container { max-width: 1060px; margin: 0 auto; padding: 4rem 2rem; }
+        ═══════════════════════════════════════════════ */
+        .container { max-width: 1060px; margin: 0 auto; padding: 4rem 2rem 5rem; }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            PROJECT CARDS
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         .project-card {
             position: relative;
             background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,.065);
+            border: 1px solid rgba(176,189,208,.1);
             border-radius: var(--card-radius);
             overflow: hidden;
             margin-bottom: 2rem;
             display: flex; flex-direction: column;
             opacity: 0; transform: translateY(22px);
-            transition: border-color var(--ease), box-shadow var(--ease),
-                        background var(--ease), opacity .55s ease, transform .55s ease;
+            transition:
+                border-color var(--ease), background var(--ease),
+                box-shadow var(--ease-out),
+                opacity .6s ease, transform .6s ease;
         }
         .project-card.visible { opacity: 1; transform: translateY(0); }
 
         .project-card:hover {
-            border-color: rgba(101,200,130,.2);
+            border-color: rgba(82,184,112,.26);
             background: var(--bg-hover);
-            box-shadow: 0 14px 52px rgba(0,0,0,.5), 0 0 0 1px rgba(101,200,130,.04);
+            box-shadow:
+                0 2px 0 rgba(82,184,112,.18) inset,          /* top green line */
+                0 18px 60px rgba(0,0,0,.4),
+                0 0 0 1px rgba(82,184,112,.06);
         }
 
-        /* left green accent line on hover */
+        /* Left accent bar */
         .project-card::before {
             content: ''; position: absolute;
-            top: 0; left: 0; bottom: 0; width: 2px;
-            background: linear-gradient(to bottom, var(--green-bright), var(--green));
-            opacity: 0; transition: opacity var(--ease);
+            top: 0; left: 0; bottom: 0; width: 3px;
+            background: linear-gradient(180deg, var(--green-hi) 0%, var(--green) 60%, transparent 100%);
+            opacity: 0;
+            transition: opacity var(--ease-out);
         }
         .project-card:hover::before { opacity: 1; }
 
+        /* Snow-light sheen on hover */
+        .project-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--snowlight) 0%, transparent 50%);
+            opacity: 0; transition: opacity var(--ease-out); pointer-events: none; z-index: 0;
+        }
+        .project-card:hover::after { opacity: 1; }
+
         .card-number {
-            position: absolute; top: 1.1rem; right: 1.3rem;
+            position: absolute; top: 1.1rem; right: 1.4rem;
             font-family: 'DM Mono', monospace; font-size: .6rem;
-            letter-spacing: .14em; color: rgba(255,255,255,.12); z-index: 2;
+            letter-spacing: .14em; color: rgba(176,189,208,.18); z-index: 2;
         }
 
         @media (min-width: 768px) {
@@ -268,248 +323,285 @@
             .project-content { flex: 1; }
         }
 
-        /* ============================================
-           IMAGE / CAROUSEL
-        ============================================ */
+        /* ═══════════════════════════════════════════════
+           CAROUSEL / IMAGE AREA
+        ═══════════════════════════════════════════════ */
         .project-image-area {
             position: relative; background: var(--bg-deep);
-            min-height: 280px; overflow: hidden;
+            min-height: 280px; overflow: hidden; z-index: 1;
         }
         @media (max-width: 767px) { .project-image-area { height: 260px; } }
 
-        /* vignette */
-        .project-image-area::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, transparent 55%, rgba(13,15,20,.55) 100%);
-            pointer-events: none; z-index: 1;
+        /* Vignette corner */
+        .project-image-area > .img-vignette {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 50%, rgba(17,21,32,.55) 100%);
+            pointer-events: none; z-index: 2;
         }
 
         .carousel-slide {
             display: none; width: 100%; height: 100%;
-            object-fit: cover; position: absolute; top: 0; left: 0; cursor: zoom-in;
+            object-fit: cover; position: absolute; top: 0; left: 0;
         }
-        .carousel-slide.active { display: block; animation: fadeImg .38s ease; }
+        .carousel-slide.active { display: block; animation: fadeImg .4s ease; }
         @keyframes fadeImg { from { opacity: 0; } to { opacity: 1; } }
 
         .carousel-dots {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 5px; z-index: 3;
+            position: absolute; bottom: 11px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 6px; z-index: 4;
         }
         .carousel-dots span {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: rgba(255,255,255,.22);
-            transition: background .3s, transform .3s;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: rgba(255,255,255,.25);
+            transition: background .28s, transform .28s;
         }
-        .carousel-dots span.active-dot { background: var(--green-bright); transform: scale(1.5); }
+        .carousel-dots span.active-dot {
+            background: var(--green-hi); transform: scale(1.45);
+        }
 
         .carousel-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(8,9,13,.82); color: var(--mist);
-            border: 1px solid rgba(255,255,255,.09);
-            padding: .62rem .78rem; cursor: pointer; font-size: .78rem;
-            z-index: 10; backdrop-filter: blur(4px);
-            transition: background var(--ease), border-color var(--ease), color var(--ease);
+            background: rgba(14,19,30,.84);
+            color: var(--frost);
+            border: 1px solid rgba(176,189,208,.12);
+            padding: .68rem .84rem;
+            font-size: .8rem; z-index: 10; backdrop-filter: blur(6px);
+            transition: background var(--ease), border-color var(--ease),
+                        color var(--ease), box-shadow var(--ease);
         }
-        .carousel-btn:hover { background: rgba(8,9,13,.97); border-color: var(--green); color: var(--green-bright); }
-        .carousel-btn.prev { left: 0; border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
-        .carousel-btn.next { right: 0; border-top-left-radius: var(--radius); border-bottom-left-radius: var(--radius); }
+        .carousel-btn:hover {
+            background: rgba(14,19,30,.97);
+            border-color: var(--green);
+            color: var(--green-hi);
+            box-shadow: 0 0 12px rgba(82,184,112,.2);
+        }
+        .carousel-btn.prev { left: 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .carousel-btn.next { right: 0; border-radius: var(--radius) 0 0 var(--radius); }
 
         .video-thumbnail-link { display: block; width: 100%; height: 100%; position: relative; text-decoration: none; }
         .play-overlay {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: rgba(8,9,13,.48); color: white;
-            transition: background .3s; z-index: 2;
+            position: absolute; inset: 0; z-index: 3;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            background: rgba(14,19,30,.45);
+            transition: background .28s;
         }
-        .play-overlay i { font-size: 3rem; margin-bottom: 8px; transition: transform .3s, color .3s; }
+        .play-overlay i { font-size: 3rem; margin-bottom: 8px; transition: transform .28s, color .28s; color: rgba(240,244,248,.85); }
         .play-overlay span {
             font-family: 'DM Mono', monospace; font-size: .67rem;
             letter-spacing: .2em; text-transform: uppercase; color: var(--mist);
         }
-        .video-thumbnail-link:hover .play-overlay { background: rgba(8,9,13,.66); }
-        .video-thumbnail-link:hover i { transform: scale(1.1); color: var(--green-bright); }
+        .video-thumbnail-link:hover .play-overlay { background: rgba(14,19,30,.62); }
+        .video-thumbnail-link:hover i { transform: scale(1.1); color: var(--green-hi); }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            PROJECT CONTENT
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         .project-content {
-            padding: 2rem 2.2rem;
+            padding: 2rem 2.4rem;
             display: flex; flex-direction: column; justify-content: center;
+            position: relative; z-index: 1;
         }
 
         .date {
             font-family: 'DM Mono', monospace;
-            font-size: .66rem; letter-spacing: .17em; text-transform: uppercase;
+            font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
             color: var(--amber); display: block; margin-bottom: .5rem;
         }
 
         .project-content h2 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.05rem, 2.5vw, 1.35rem); font-weight: 500;
-            color: var(--snowfield); line-height: 1.3; margin-bottom: .75rem;
+            font-size: clamp(1.08rem, 2.5vw, 1.38rem); font-weight: 500;
+            color: var(--ice); line-height: 1.28; margin-bottom: .8rem;
         }
 
         .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
 
         .tag {
             font-family: 'DM Mono', monospace;
-            font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
-            color: var(--slate-lite);
-            background: rgba(255,255,255,.038);
-            border: 1px solid rgba(255,255,255,.09);
-            padding: .18rem .6rem; border-radius: var(--radius);
+            font-size: .63rem; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--rock-lite);
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(176,189,208,.13);
+            padding: .2rem .65rem; border-radius: var(--radius);
             transition: background var(--ease), border-color var(--ease), color var(--ease);
         }
         .tag:hover {
-            background: var(--green-glow);
-            border-color: var(--green-border);
-            color: var(--green-bright);
+            background: var(--green-lo);
+            border-color: var(--green-rim);
+            color: var(--green-hi);
         }
 
-        .project-content p { font-size: .91rem; color: var(--mist); margin-bottom: .85rem; line-height: 1.75; }
+        .project-content p {
+            font-size: .93rem; color: var(--frost);
+            margin-bottom: .9rem; line-height: 1.76;
+        }
 
         .project-content ul {
             padding-left: 0; list-style: none;
-            font-size: .87rem; color: var(--fog); margin-bottom: 1.2rem;
+            font-size: .88rem; color: var(--mist); margin-bottom: 1.2rem;
         }
         .project-content ul li {
-            position: relative; padding-left: 1.2rem;
-            margin-bottom: .42rem; line-height: 1.65;
+            position: relative; padding-left: 1.3rem;
+            margin-bottom: .44rem; line-height: 1.66;
         }
         .project-content ul li::before {
             content: '—'; position: absolute; left: 0;
-            color: rgba(101,200,130,.3); font-size: .72rem; top: .08em;
+            color: rgba(82,184,112,.38); font-size: .72rem; top: .1em;
         }
-        .project-content ul li strong { color: var(--mist); font-weight: 500; }
+        .project-content ul li strong { color: var(--frost); font-weight: 500; }
         .project-content ul li code {
             font-family: 'DM Mono', monospace; font-size: .78em;
-            color: var(--amber); background: var(--amber-glow);
-            padding: .08em .32em; border-radius: 3px;
+            color: var(--amber); background: var(--amber-lo);
+            padding: .08em .34em; border-radius: 3px;
         }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            BUTTONS
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         .btn-group { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
 
         .btn {
-            display: inline-flex; align-items: center; gap: .44rem;
+            display: inline-flex; align-items: center; gap: .45rem;
             font-family: 'DM Mono', monospace;
             font-size: .7rem; letter-spacing: .13em; text-transform: uppercase;
-            padding: .55rem 1.1rem; border-radius: var(--radius);
-            text-decoration: none; transition: all var(--ease); white-space: nowrap;
+            padding: .58rem 1.2rem; border-radius: var(--radius);
+            text-decoration: none; white-space: nowrap;
+            transition: all var(--ease);
         }
         .btn-primary {
-            background: var(--green-glow); color: var(--green-bright);
-            border: 1px solid var(--green-border);
+            background: var(--green-lo); color: var(--green-hi);
+            border: 1px solid var(--green-rim);
         }
         .btn-primary:hover {
-            background: rgba(101,200,130,.2); border-color: var(--green-bright); color: var(--snow);
+            background: rgba(82,184,112,.22);
+            border-color: var(--green-hi);
+            color: var(--snow);
+            box-shadow: 0 0 18px rgba(82,184,112,.2);
         }
         .btn-secondary {
-            background: rgba(255,255,255,.03); color: var(--fog);
-            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.04); color: var(--mist);
+            border: 1px solid rgba(176,189,208,.15);
         }
-        .btn-secondary:hover { border-color: rgba(255,255,255,.24); color: var(--mist); background: rgba(255,255,255,.06); }
+        .btn-secondary:hover {
+            border-color: rgba(176,189,208,.32); color: var(--frost);
+            background: rgba(255,255,255,.08);
+        }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            MODAL
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 2000;
-            background: rgba(4,5,9,.94); backdrop-filter: blur(10px);
-            cursor: zoom-out; align-items: center; justify-content: center;
+            background: rgba(10,13,20,.95); backdrop-filter: blur(12px);
+            align-items: center; justify-content: center;
         }
         .modal.open { display: flex; }
         .modal-content {
             max-width: 90vw; max-height: 88vh;
-            border-radius: var(--card-radius); cursor: default;
-            box-shadow: 0 40px 100px rgba(0,0,0,.7);
-            border: 1px solid rgba(255,255,255,.06);
+            border-radius: var(--card-radius);
+            box-shadow: 0 40px 120px rgba(0,0,0,.7);
+            border: 1px solid rgba(176,189,208,.08);
         }
         .close-modal {
             position: fixed; top: 1.4rem; right: 1.8rem;
-            color: var(--fog); font-size: 1.8rem; cursor: pointer; z-index: 2001;
+            color: var(--mist); font-size: 1.8rem;
+            z-index: 2001; line-height: 1;
             transition: color var(--ease);
         }
         .close-modal:hover { color: var(--snow); }
         .modal-btn {
             position: fixed; top: 50%; transform: translateY(-50%);
-            background: rgba(19,21,29,.92); color: var(--mist);
-            border: 1px solid rgba(255,255,255,.1);
-            padding: 1rem 1.1rem; font-size: 1rem; cursor: pointer;
-            z-index: 2005; border-radius: var(--radius); transition: all var(--ease);
+            background: rgba(22,27,36,.9);
+            color: var(--frost);
+            border: 1px solid rgba(176,189,208,.14);
+            padding: 1.1rem 1.2rem; font-size: 1rem;
+            z-index: 2005; border-radius: var(--radius);
             backdrop-filter: blur(6px);
+            transition: all var(--ease);
         }
-        .modal-btn:hover { background: var(--green-glow); border-color: var(--green); color: var(--green-bright); }
+        .modal-btn:hover {
+            background: var(--green-lo); border-color: var(--green);
+            color: var(--green-hi);
+            box-shadow: 0 0 16px rgba(82,184,112,.2);
+        }
         .modal-btn.prev { left: 1.2rem; }
         .modal-btn.next { right: 1.2rem; }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            FOOTER
-        ============================================ */
+        ═══════════════════════════════════════════════ */
         footer {
             text-align: center; padding: 4rem 2rem;
-            border-top: 1px solid rgba(255,255,255,.055);
-            font-family: 'DM Mono', monospace; font-size: .7rem;
-            letter-spacing: .14em; color: rgba(98,107,122,.45);
+            border-top: 1px solid rgba(176,189,208,.08);
+            font-family: 'DM Mono', monospace;
+            font-size: .7rem; letter-spacing: .14em;
+            color: var(--haze);
         }
-        footer .accent { color: var(--green); opacity: .75; }
+        footer .accent { color: var(--green); }
 
-        /* ============================================
+        /* ═══════════════════════════════════════════════
            KEYFRAMES
-        ============================================ */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
+        ═══════════════════════════════════════════════ */
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(12px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ============================================
-           SCROLLBAR & SELECTION
-        ============================================ */
+        /* ═══════════════════════════════════════════════
+           SCROLLBAR  &  SELECTION
+        ═══════════════════════════════════════════════ */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg-base); }
-        ::-webkit-scrollbar-thumb { background: var(--slate-dark); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--slate-mid); }
-        ::selection { background: rgba(101,200,130,.18); color: var(--snow); }
+        ::-webkit-scrollbar-thumb { background: var(--rock-dark); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--rock-mid); }
+        ::selection { background: rgba(82,184,112,.22); color: var(--snow); }
     </style>
 </head>
 <body>
 
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
-<div id="cursor-glow"></div>
+<!-- ─── Custom cursor ─── -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="cur-glow"></div>
 
-<!-- ========================  HEADER  ======================== -->
+<!-- ═══════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════ -->
 <header>
 
-    <!-- Topography contour lines (white-tinted for snow/rock feel) -->
-    <svg class="topo-bg" viewBox="0 0 1400 560" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="700" cy="580" rx="700" ry="250" stroke="#d4dce6" stroke-width=".8"/>
-        <ellipse cx="700" cy="580" rx="570" ry="196" stroke="#d4dce6" stroke-width=".8"/>
-        <ellipse cx="700" cy="580" rx="450" ry="150" stroke="#d4dce6" stroke-width=".9"/>
-        <ellipse cx="700" cy="580" rx="340" ry="112" stroke="#d4dce6" stroke-width="1"/>
-        <ellipse cx="700" cy="580" rx="238" ry="78"  stroke="#d4dce6" stroke-width="1.1"/>
-        <ellipse cx="700" cy="580" rx="145" ry="48"  stroke="#d4dce6" stroke-width="1.2"/>
-        <path d="M0 490 Q180 450 360 468 Q540 486 700 416 Q860 346 1060 456 Q1220 502 1400 472" stroke="#d4dce6" stroke-width=".6"/>
-        <path d="M0 520 Q200 482 440 498 Q660 514 900 470 Q1100 442 1400 510" stroke="#d4dce6" stroke-width=".5"/>
+    <!-- Topography: white/ice contour lines for alpine rock feel -->
+    <svg class="topo-svg" viewBox="0 0 1400 560" preserveAspectRatio="xMidYMid slice" fill="none">
+        <ellipse cx="700" cy="590" rx="720" ry="264" stroke="#dce8f4" stroke-width=".8"/>
+        <ellipse cx="700" cy="590" rx="580" ry="205" stroke="#dce8f4" stroke-width=".85"/>
+        <ellipse cx="700" cy="590" rx="454" ry="155" stroke="#dce8f4" stroke-width=".95"/>
+        <ellipse cx="700" cy="590" rx="340" ry="114" stroke="#dce8f4" stroke-width="1"/>
+        <ellipse cx="700" cy="590" rx="235" ry="78"  stroke="#dce8f4" stroke-width="1.05"/>
+        <ellipse cx="700" cy="590" rx="140" ry="46"  stroke="#dce8f4" stroke-width="1.1"/>
+        <ellipse cx="700" cy="590" rx="60"  cy="590" ry="18"   stroke="#dce8f4" stroke-width="1.15"/>
+        <!-- horizon ridge lines -->
+        <path d="M0 495 Q180 458 360 474 Q540 490 700 422 Q862 354 1060 462 Q1220 506 1400 478" stroke="#dce8f4" stroke-width=".6"/>
+        <path d="M0 522 Q200 488 440 502 Q660 516 900 474 Q1100 445 1400 514" stroke="#dce8f4" stroke-width=".48"/>
     </svg>
 
-    <!-- Mountain silhouette layers -->
-    <svg class="mountain-bg" viewBox="0 0 1400 280" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-        <!-- Far range — navy -->
-        <polygon points="0,280 160,120 300,190 460,68 620,160 780,44 940,130 1100,76 1260,148 1400,98 1400,280" fill="#0e1322"/>
-        <!-- Mid range — dark slate -->
-        <polygon points="0,280 80,196 240,144 420,210 560,108 720,178 890,98 1060,168 1210,120 1400,162 1400,280" fill="#111624"/>
-        <!-- Foreground ridge -->
-        <polygon points="0,280 200,238 420,218 640,244 860,224 1080,240 1300,220 1400,232 1400,280" fill="#0d0f14"/>
-        <!-- Snow caps — crisp white tips -->
-        <polygon points="460,68  490,90  440,92"  fill="rgba(239,243,247,.6)"/>
-        <polygon points="780,44  816,68  752,70"  fill="rgba(239,243,247,.7)"/>
-        <polygon points="1100,76 1130,97 1076,99" fill="rgba(239,243,247,.5)"/>
-        <!-- Tree line hint — green accent -->
-        <path d="M0,244 Q200,232 420,240 Q640,248 860,234 Q1080,220 1300,238 Q1360,242 1400,238 L1400,280 L0,280 Z"
-              fill="rgba(45,65,42,.5)"/>
+    <!-- Mountain silhouette: cold navy → slate layers + snow caps -->
+    <svg class="mtn-svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMax slice">
+        <!-- Far range — cold navy -->
+        <polygon points="0,300 150,128 290,200 455,72 618,164 782,48 945,136 1110,82 1262,152 1400,104 1400,300" fill="#0e1422"/>
+        <!-- Mid range — slate -->
+        <polygon points="0,300 75,204 238,148 418,216 558,112 718,182 892,102 1062,172 1208,126 1400,168 1400,300" fill="#121826"/>
+        <!-- Foreground ridge — near base color -->
+        <polygon points="0,300 200,252 420,228 640,258 860,238 1080,250 1300,234 1400,244 1400,300" fill="#161b24"/>
+        <!-- Snow caps — bright ice white -->
+        <polygon points="455,72  490,96  428,98"  fill="rgba(240,244,248,.72)"/>
+        <polygon points="782,48  822,74  750,76"  fill="rgba(240,244,248,.80)"/>
+        <polygon points="1110,82 1144,104 1082,106" fill="rgba(240,244,248,.62)"/>
+        <!-- Subtle snow shading below peaks -->
+        <polygon points="455,72  490,96  470,96  452,88" fill="rgba(210,225,240,.35)"/>
+        <polygon points="782,48  822,74  800,74  778,62" fill="rgba(210,225,240,.35)"/>
+        <!-- Tree-line hint: very dark desaturated green band -->
+        <path d="M0,258 Q200,244 420,252 Q640,260 860,246 Q1080,232 1300,248 L1400,244 L1400,300 L0,300 Z"
+              fill="rgba(40,58,44,.55)"/>
     </svg>
 
     <p class="eyebrow">Engineering Portfolio</p>
@@ -522,22 +614,25 @@
     </div>
 </header>
 
-<!-- Green elevation divider -->
 <div class="elevation-band"></div>
+<div class="snowlight-strip"></div>
 
-<!-- ========================  PROJECTS  ======================== -->
+<!-- ═══════════════════════════════════════════════
+     PROJECTS
+═══════════════════════════════════════════════ -->
 <div class="container">
     <p class="section-label">Selected Work</p>
 
-    <!-- 01 Alarm Clock -->
+    <!-- 01 ─ Retro Alarm Clock -->
     <section class="project-card">
         <span class="card-number">01 / 06</span>
         <div class="project-image-area" id="carousel-7">
-            <img src="finsihed.webp"       alt="Finished Retro Wooden Alarm Clock"     class="carousel-slide active" onclick="openModal(this)">
-            <img src="box_unfinished.webp" alt="Completed but empty box"               class="carousel-slide"        onclick="openModal(this)">
-            <img src="breadboard.webp"     alt="Prototype breadboard"                  class="carousel-slide"        onclick="openModal(this)">
-            <img src="components.webp"     alt="Wires soldered to UX components"       class="carousel-slide"        onclick="openModal(this)">
-            <img src="perfboard.webp"      alt="Perf-board soldering and Arduino Uno"  class="carousel-slide"        onclick="openModal(this)">
+            <div class="img-vignette"></div>
+            <img src="finsihed.webp"       alt="Finished Retro Wooden Alarm Clock"    class="carousel-slide active" onclick="openModal(this)">
+            <img src="box_unfinished.webp" alt="Completed empty box"                  class="carousel-slide"        onclick="openModal(this)">
+            <img src="breadboard.webp"     alt="Prototype breadboard"                 class="carousel-slide"        onclick="openModal(this)">
+            <img src="components.webp"     alt="Wires soldered to UX components"      class="carousel-slide"        onclick="openModal(this)">
+            <img src="perfboard.webp"      alt="Perf-board soldering"                 class="carousel-slide"        onclick="openModal(this)">
             <div class="carousel-dots" id="dots-carousel-7"></div>
             <button class="carousel-btn prev" onclick="moveSlide('carousel-7',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-7', 1)">&#10095;</button>
@@ -551,11 +646,11 @@
             </div>
             <p>A custom-built, retro-styled alarm clock featuring a hand-crafted wooden enclosure and a 4-digit 7-segment display driven by a shift register to minimize pin usage.</p>
             <ul>
-                <li>Designed and soldered a complete circuit onto a <strong>perf-board</strong>, integrating an Arduino Nano with a shift register to control display multiplexing.</li>
+                <li>Designed and soldered a complete circuit onto a <strong>perf-board</strong>, integrating an Arduino Nano with a shift register for 4-digit display multiplexing.</li>
                 <li>Implemented <strong>four analog potentiometers</strong> for tactile control over Volume, Alarm Hour, Alarm Minute, and Timer.</li>
                 <li>Integrated an external music library to play <strong>10+ custom melodies</strong> via the <code>tone()</code> function with full state management.</li>
-                <li>Fabricated a <strong>custom wooden enclosure</strong> from scratch, blending modern electronics with a vintage aesthetic.</li>
-                <li>Developed interrupt-driven logic for button handling and real-time clock state management without an external RTC module.</li>
+                <li>Fabricated a <strong>custom wooden enclosure</strong> blending modern electronics with a vintage aesthetic.</li>
+                <li>Developed interrupt-driven logic for real-time clock state management without an external RTC module.</li>
             </ul>
             <div class="btn-group">
                 <a href="https://github.com/ProtoAce/Arduino-Nano-Alarm-Clock" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
@@ -563,28 +658,29 @@
         </div>
     </section>
 
-    <!-- 02 E-Bike -->
+    <!-- 02 ─ E-Bike -->
     <section class="project-card">
         <span class="card-number">02 / 06</span>
         <div class="project-image-area" id="carousel-1">
-            <img src="Bike2.webp"          alt="Finished E-Bike"              class="carousel-slide active" onclick="openModal(this)">
-            <img src="Bike.webp"           alt="Drivetrain and motor"         class="carousel-slide"        onclick="openModal(this)">
-            <img src="BackMount.webp"      alt="Mounting rear components"     class="carousel-slide"        onclick="openModal(this)">
-            <img src="BatteryHousing.webp" alt="Battery Housing"              class="carousel-slide"        onclick="openModal(this)">
-            <img src="Cog.webp"            alt="Wooden Pulley"                class="carousel-slide"        onclick="openModal(this)">
-            <img src="Motor.webp"          alt="Motor testing"                class="carousel-slide"        onclick="openModal(this)">
-            <img src="Throttle.webp"       alt="Throttle assembly"            class="carousel-slide"        onclick="openModal(this)">
-            <img src="Welder.webp"         alt="Welder Testing"               class="carousel-slide"        onclick="openModal(this)">
-            <img src="WelderDoneF.webp"    alt="Welder Finished Front"        class="carousel-slide"        onclick="openModal(this)">
-            <img src="WelderDoneB.webp"    alt="Welder Finished Back"         class="carousel-slide"        onclick="openModal(this)">
-            <img src="Wiring1.webp"        alt="Wiring 1"                     class="carousel-slide"        onclick="openModal(this)">
-            <img src="Wiring2.webp"        alt="Wiring 2"                     class="carousel-slide"        onclick="openModal(this)">
+            <div class="img-vignette"></div>
+            <img src="Bike2.webp"          alt="Finished E-Bike"          class="carousel-slide active" onclick="openModal(this)">
+            <img src="Bike.webp"           alt="Drivetrain and motor"     class="carousel-slide"        onclick="openModal(this)">
+            <img src="BackMount.webp"      alt="Rear components mount"    class="carousel-slide"        onclick="openModal(this)">
+            <img src="BatteryHousing.webp" alt="Battery Housing"          class="carousel-slide"        onclick="openModal(this)">
+            <img src="Cog.webp"            alt="Wooden Pulley"            class="carousel-slide"        onclick="openModal(this)">
+            <img src="Motor.webp"          alt="Motor testing"            class="carousel-slide"        onclick="openModal(this)">
+            <img src="Throttle.webp"       alt="Throttle assembly"        class="carousel-slide"        onclick="openModal(this)">
+            <img src="Welder.webp"         alt="Welder Testing"           class="carousel-slide"        onclick="openModal(this)">
+            <img src="WelderDoneF.webp"    alt="Welder Finished Front"    class="carousel-slide"        onclick="openModal(this)">
+            <img src="WelderDoneB.webp"    alt="Welder Finished Back"     class="carousel-slide"        onclick="openModal(this)">
+            <img src="Wiring1.webp"        alt="Wiring 1"                 class="carousel-slide"        onclick="openModal(this)">
+            <img src="Wiring2.webp"        alt="Wiring 2"                 class="carousel-slide"        onclick="openModal(this)">
             <div class="carousel-dots" id="dots-carousel-1"></div>
             <button class="carousel-btn prev" onclick="moveSlide('carousel-1',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-1', 1)">&#10095;</button>
         </div>
         <div class="project-content">
-            <span class="date">May 2025 – July 2025</span>
+            <span class="date">May – July 2025</span>
             <h2>From Junkyard to Joyride — DIY Electric Bike</h2>
             <div class="tags">
                 <span class="tag">VESC Firmware</span><span class="tag">Power Electronics</span>
@@ -594,19 +690,20 @@
             <ul>
                 <li>Rewired a <strong>2012 Jeep alternator</strong> into a powerful traction motor.</li>
                 <li>Built a 12Ah Samsung 30T battery pack with a custom spot welder.</li>
-                <li>Programmed a <strong>VESC motor controller</strong> with custom firmware for multiple speed modes and automatic brake-based motor cutoff.</li>
+                <li>Programmed a <strong>VESC motor controller</strong> with custom firmware for multiple speed modes and brake-based motor cutoff.</li>
                 <li>Fabricated a steel mounting frame and a 16-inch wooden belt pulley.</li>
             </ul>
         </div>
     </section>
 
-    <!-- 03 CourseCraft -->
+    <!-- 03 ─ CourseCraft -->
     <section class="project-card">
         <span class="card-number">03 / 06</span>
         <div class="project-image-area" id="carousel-2">
-            <img src="calendar view.png"    alt="CourseCraft Dashboard"  class="carousel-slide active" onclick="openModal(this)">
-            <img src="course selection.png" alt="Course Selection"       class="carousel-slide"        onclick="openModal(this)">
-            <img src="optimizer.png"        alt="Optimization options"   class="carousel-slide"        onclick="openModal(this)">
+            <div class="img-vignette"></div>
+            <img src="calendar view.png"    alt="CourseCraft Dashboard" class="carousel-slide active" onclick="openModal(this)">
+            <img src="course selection.png" alt="Course Selection"      class="carousel-slide"        onclick="openModal(this)">
+            <img src="optimizer.png"        alt="Optimization options"  class="carousel-slide"        onclick="openModal(this)">
             <div class="carousel-dots" id="dots-carousel-2"></div>
             <button class="carousel-btn prev" onclick="moveSlide('carousel-2',-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveSlide('carousel-2', 1)">&#10095;</button>
@@ -619,11 +716,11 @@
                 <span class="tag">Google OR-Tools</span><span class="tag">REST API</span>
                 <span class="tag">Algorithm Design</span>
             </div>
-            <p>A smart scheduling tool for SFU students that uses constraint programming to automate the tedious process of manual timetable planning.</p>
+            <p>A smart scheduling tool for SFU students using constraint programming to automate the tedious process of manual timetable planning.</p>
             <ul>
                 <li>Developed a high-performance optimizer using the <strong>Google SAT solver</strong> to minimize schedule gaps and reduce campus days.</li>
                 <li>Engineered a responsive <strong>React web application</strong> for students to set preferences and visualize their optimized timetables.</li>
-                <li>Integrated live data from the <strong>SFU API</strong> with a caching layer ensuring fast response times and up-to-date course info.</li>
+                <li>Integrated live data from the <strong>SFU API</strong> with a caching layer for fast, up-to-date course information.</li>
             </ul>
             <div class="btn-group">
                 <a href="https://github.com/ProtoAce/Schedule-Builder" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
@@ -631,10 +728,11 @@
         </div>
     </section>
 
-    <!-- 04 Sentiment Bot -->
+    <!-- 04 ─ Sentiment Bot -->
     <section class="project-card">
         <span class="card-number">04 / 06</span>
         <div class="project-image-area" id="carousel-4">
+            <div class="img-vignette"></div>
             <img src="discordjs.png" alt="Discord Sentiment Bot" class="carousel-slide active" onclick="openModal(this)">
             <div class="carousel-dots" id="dots-carousel-4"></div>
             <button class="carousel-btn prev" onclick="moveSlide('carousel-4',-1)">&#10094;</button>
@@ -647,12 +745,12 @@
                 <span class="tag">Node.js</span><span class="tag">React</span>
                 <span class="tag">MySQL</span><span class="tag">VADER NLP</span><span class="tag">Express</span>
             </div>
-            <p>An advanced Discord integration that monitors community health by analyzing the sentiment of text and voice communications in real-time.</p>
+            <p>An advanced Discord integration monitoring community health by analyzing the sentiment of text and voice communications in real-time.</p>
             <ul>
                 <li>Developed a <strong>Discord.js bot</strong> using <strong>VADER Sentiment Analysis</strong> to calculate message polarity and track emotional trends.</li>
                 <li>Engineered a <strong>React.js web portal</strong> with an <strong>Express.js REST API</strong> for user statistics and dynamic leaderboards.</li>
                 <li>Implemented <strong>Coqui STT</strong> integration to extend sentiment analysis to voice channels.</li>
-                <li>Designed a <strong>MySQL relational database</strong> schema for historical analysis data and long-term trend reporting.</li>
+                <li>Designed a <strong>MySQL schema</strong> for historical analysis data and long-term trend reporting.</li>
             </ul>
             <div class="btn-group">
                 <a href="https://github.com/spektrumm/socialCredit" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
@@ -660,10 +758,11 @@
         </div>
     </section>
 
-    <!-- 05 Compression Analysis -->
+    <!-- 05 ─ Compression Analysis -->
     <section class="project-card">
         <span class="card-number">05 / 06</span>
         <div class="project-image-area" id="carousel-6">
+            <div class="img-vignette"></div>
             <img src="ReportPic.png" alt="Compression Ratio Analysis" class="carousel-slide active" onclick="openModal(this)">
             <div class="carousel-dots" id="dots-carousel-6"></div>
             <button class="carousel-btn prev" onclick="moveSlide('carousel-6',-1)">&#10094;</button>
@@ -679,9 +778,9 @@
             <p>An in-depth study comparing gzip, zlib, bz2, and lzma algorithms to determine optimal compression strategies across HDD, SSD, and NVMe storage.</p>
             <ul>
                 <li>Generated a dataset of <strong>7,000 data points</strong> tracking compression speeds, ratios, and decompression times for 2.2GB of diverse file types.</li>
-                <li>Applied <strong>ANOVA and Tukey HSD tests</strong> with Bonferroni correction to statistically prove performance differences between configurations.</li>
-                <li>Trained <strong>Random Forest and MLP Regressors</strong> to predict the best compression method with <strong>95.6% testing accuracy</strong>.</li>
-                <li>Identified significant performance variances when compressing on <strong>HDD vs. NVMe</strong> storage.</li>
+                <li>Applied <strong>ANOVA and Tukey HSD tests</strong> with Bonferroni correction to statistically prove performance differences.</li>
+                <li>Trained <strong>Random Forest and MLP Regressors</strong> predicting optimal compression with <strong>95.6% accuracy</strong>.</li>
+                <li>Identified significant performance variances between <strong>HDD and NVMe</strong> storage configurations.</li>
             </ul>
             <div class="btn-group">
                 <a href="report.pdf" target="_blank" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Read Report</a>
@@ -690,7 +789,7 @@
         </div>
     </section>
 
-    <!-- 06 Hidden Squirrel -->
+    <!-- 06 ─ Hidden Squirrel -->
     <section class="project-card">
         <span class="card-number">06 / 06</span>
         <div class="project-image-area" id="carousel-5">
@@ -709,12 +808,12 @@
                 <span class="tag">Java</span><span class="tag">BFS Pathfinding</span>
                 <span class="tag">Procedural Generation</span>
             </div>
-            <p>A Pac-Man inspired stealth-arcade game where a squirrel must navigate a maze while evading bears using advanced pathfinding and stealth mechanics.</p>
+            <p>A Pac-Man inspired stealth-arcade game where a squirrel navigates a maze while evading bears using advanced pathfinding and stealth mechanics.</p>
             <ul>
-                <li>Engineered <strong>Bear AI pathfinding</strong> using a shortest-path algorithm to create a persistent, challenging pursuit mechanic.</li>
-                <li>Developed a <strong>procedural map generation</strong> system ensuring all levels are valid, playable, and free of dead-ends.</li>
-                <li>Implemented <strong>stealth-based randomization</strong> — when the squirrel is hidden, AI transitions to a randomized search pattern.</li>
-                <li>Created fluid <strong>character animations</strong> for movement and state changes, enhancing game feel.</li>
+                <li>Engineered <strong>Bear AI pathfinding</strong> using a shortest-path algorithm for a persistent, challenging pursuit mechanic.</li>
+                <li>Developed a <strong>procedural map generation</strong> system ensuring all levels are valid and free of dead-ends.</li>
+                <li>Implemented <strong>stealth-based randomization</strong> — when hidden, AI transitions to a randomized search pattern.</li>
+                <li>Created fluid <strong>character animations</strong> for movement and state changes, enhancing overall game feel.</li>
             </ul>
             <div class="btn-group">
                 <a href="https://github.com/ProtoAce/2D-Arcade-Game" class="btn btn-primary"><i class="fab fa-github"></i> View Repo</a>
@@ -724,12 +823,16 @@
 
 </div>
 
-<!-- ========================  FOOTER  ======================== -->
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
 <footer>
     <p>&copy; 2026 Misha Goldenberg &nbsp;·&nbsp; Built with <span class="accent">curiosity</span></p>
 </footer>
 
-<!-- ========================  MODAL  ======================== -->
+<!-- ═══════════════════════════════════════════════
+     MODAL
+═══════════════════════════════════════════════ -->
 <div id="imageModal" class="modal">
     <span class="close-modal" onclick="closeModal()">&times;</span>
     <button class="modal-btn prev" onclick="moveModal(-1)">&#10094;</button>
@@ -737,44 +840,75 @@
     <img class="modal-content" id="fullImage" alt="Enlarged project image">
 </div>
 
-<!-- ========================  JS  ======================== -->
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════ -->
 <script>
-/* ---- Cursor — unified hover state ---- */
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-const glow = document.getElementById('cursor-glow');
-let mx = window.innerWidth/2, my = window.innerHeight/2;
+/* ════════════════════════════════════════
+   CURSOR — fully custom, no pointer finger
+   cursor:none + cursor:none!important on *
+   handles dot, ring, glow + hover/click
+════════════════════════════════════════ */
+const curDot  = document.getElementById('cur-dot');
+const curRing = document.getElementById('cur-ring');
+const curGlow = document.getElementById('cur-glow');
+
+let mx = window.innerWidth  / 2;
+let my = window.innerHeight / 2;
 let rx = mx, ry = my;
 
+// Dot + glow follow mouse instantly
 document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    dot.style.left  = mx + 'px';
-    dot.style.top   = my + 'px';
-    glow.style.left = mx + 'px';
-    glow.style.top  = my + 'px';
+    curDot.style.left  = mx + 'px';
+    curDot.style.top   = my + 'px';
+    curGlow.style.left = mx + 'px';
+    curGlow.style.top  = my + 'px';
 });
 
+// Ring lags slightly behind for alpine "trail" feel
 (function animRing() {
-    rx += (mx - rx) * 0.11;
-    ry += (my - ry) * 0.11;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    curRing.style.left = rx + 'px';
+    curRing.style.top  = ry + 'px';
     requestAnimationFrame(animRing);
 })();
 
-// Attach hover listeners to EVERY interactive element (header + body + modal)
-function attachHover() {
-    document.querySelectorAll('a, button, [onclick], .tag, .close-modal').forEach(el => {
-        if (!el._cursorBound) {
-            el.addEventListener('mouseenter', () => document.body.classList.add('is-hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('is-hovering'));
-            el._cursorBound = true;
-        }
-    });
-}
-attachHover();
+// Click pulse
+document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
 
-/* ---- Carousel ---- */
+// Hide cursor when leaving window
+document.addEventListener('mouseleave', () => {
+    curDot.style.opacity  = '0';
+    curRing.style.opacity = '0';
+});
+document.addEventListener('mouseenter', () => {
+    curDot.style.opacity  = '1';
+    curRing.style.opacity = '1';
+});
+
+// ── Hover detection: covers ALL interactive elements globally
+// Uses event delegation on document — catches everything including
+// dynamically added elements (modal buttons, etc.)
+const HOVER_SELECTORS = 'a, button, [onclick], .tag, .close-modal, .carousel-btn, .modal-btn';
+
+document.addEventListener('mouseover', e => {
+    if (e.target.closest(HOVER_SELECTORS)) {
+        document.body.classList.add('hovering');
+    }
+});
+document.addEventListener('mouseout', e => {
+    if (e.target.closest(HOVER_SELECTORS)) {
+        document.body.classList.remove('hovering');
+    }
+});
+
+
+/* ════════════════════════════════════════
+   CAROUSEL
+════════════════════════════════════════ */
 function buildDots(id) {
     const c = document.getElementById(id); if (!c) return;
     const slides = c.getElementsByClassName('carousel-slide');
@@ -803,23 +937,25 @@ function moveSlide(id, dir) {
 }
 ['carousel-7','carousel-1','carousel-2','carousel-4','carousel-6'].forEach(buildDots);
 
-/* ---- Modal ---- */
-let currentCarousel = '';
+
+/* ════════════════════════════════════════
+   MODAL
+════════════════════════════════════════ */
+let activeCar = '';
 function openModal(img) {
-    currentCarousel = img.parentElement.id;
+    activeCar = img.parentElement.id;
     document.getElementById('fullImage').src = img.src;
     document.getElementById('imageModal').classList.add('open');
     document.body.style.overflow = 'hidden';
-    attachHover(); // re-bind in case modal elements weren't in DOM
 }
 function closeModal() {
     document.getElementById('imageModal').classList.remove('open');
     document.body.style.overflow = '';
 }
 function moveModal(dir) {
-    moveSlide(currentCarousel, dir);
+    moveSlide(activeCar, dir);
     document.getElementById('fullImage').src =
-        document.getElementById(currentCarousel).querySelector('.carousel-slide.active').src;
+        document.getElementById(activeCar).querySelector('.carousel-slide.active').src;
 }
 document.getElementById('imageModal').addEventListener('click', e => {
     if (e.target === document.getElementById('imageModal')) closeModal();
@@ -831,19 +967,22 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') moveModal(1);
 });
 
-/* ---- Scroll reveal ---- */
-const observer = new IntersectionObserver(entries => {
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+            io.unobserve(entry.target);
         }
     });
 }, { threshold: 0.07 });
 
 document.querySelectorAll('.project-card').forEach((card, i) => {
-    card.style.transitionDelay = i * 0.04 + 's';
-    observer.observe(card);
+    card.style.transitionDelay = (i * 0.045) + 's';
+    io.observe(card);
 });
 </script>
 </body>
