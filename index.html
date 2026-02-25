@@ -616,7 +616,7 @@
      PROJECTS
 ═══════════════════════════════════════════════ -->
 <div class="container">
-    <p class="section-label">Projects</p>
+    <!-- <p class="section-label">Projects</p> -->
 
     <!-- 01 ─ Retro Alarm Clock -->
     <section class="project-card">
@@ -887,7 +887,7 @@ document.addEventListener('mouseenter', () => {
 // ── Hover detection: covers ALL interactive elements globally
 // Uses event delegation on document — catches everything including
 // dynamically added elements (modal buttons, etc.)
-const HOVER_SELECTORS = 'a, button, [onclick], .tag, .close-modal, .carousel-btn, .modal-btn';
+const HOVER_SELECTORS = 'a, button, [onclick], .close-modal, .carousel-btn, .modal-btn';
 
 document.addEventListener('mouseover', e => {
     if (e.target.closest(HOVER_SELECTORS)) {
