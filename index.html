@@ -563,7 +563,7 @@
 <!-- ─── Custom cursor ─── -->
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
-<div id="cur-glow"></div>
+<!-- <div id="cur-glow"></div> -->
 
 <!-- ═══════════════════════════════════════════════
      HEADER
@@ -851,7 +851,7 @@
 ════════════════════════════════════════ */
 const curDot  = document.getElementById('cur-dot');
 const curRing = document.getElementById('cur-ring');
-const curGlow = document.getElementById('cur-glow');
+// const curGlow = document.getElementById('cur-glow');
 
 let mx = window.innerWidth  / 2;
 let my = window.innerHeight / 2;
@@ -862,8 +862,8 @@ document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     curDot.style.left  = mx + 'px';
     curDot.style.top   = my + 'px';
-    curGlow.style.left = mx + 'px';
-    curGlow.style.top  = my + 'px';
+    // curGlow.style.left = mx + 'px';
+    // curGlow.style.top  = my + 'px';
 });
 
 // Ring lags slightly behind for alpine "trail" feel
