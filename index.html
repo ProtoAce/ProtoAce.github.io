@@ -19,46 +19,41 @@
            Support: slate rock, amber warmth, navy cold
         ═══════════════════════════════════════════════ */
         :root {
-            /* ── Backgrounds (stepped lightness) */
-            --bg-base:   #161b24;   /* main body — deep charcoal-slate, not black */
-            --bg-deep:   #111520;   /* image wells, deepest recesses */
-            --bg-card:   #1c2230;   /* card surface — visible lift from base */
-            --bg-hover:  #222840;   /* card hover — clear step up */
-            --bg-subtle: #202635;   /* section breaks */
-
-            /* ── Rock / slate grays */
-            --rock-dark: #2c3347;
-            --rock-mid:  #424f68;
-            --rock-lite: #68789a;
-
-            /* ── Snow & ice hierarchy (TEXT) */
-            --snow:      #f0f4f8;   /* h1, hero name — near white */
-            --ice:       #d8e2ee;   /* h2 card titles */
-            --frost:     #b0bdd0;   /* body paragraph text */
-            --mist:      #8494ac;   /* list items, secondary */
-            --haze:      #5a6880;   /* muted labels, fog */
-
-            /* ── Forest green — ACCENT, vivid */
-            --green:        #52b870;
-            --green-hi:     #6dd98a;   /* hover / bright state */
-            --green-lo:     rgba(82, 184, 112, 0.14);
-            --green-rim:    rgba(82, 184, 112, 0.32);
-            --green-glow:   rgba(82, 184, 112, 0.08);
-
-            /* ── Amber / alpine gold */
-            --amber:     #d4aa6a;
-            --amber-lo:  rgba(212, 170, 106, 0.12);
-
-            /* ── Cold navy */
-            --navy:      #131a2e;
-
-            /* ── Snow-light (soft white glow for breathing space) */
-            --snowlight: rgba(220, 232, 248, 0.05);
-
-            --radius:      4px;
-            --card-radius: 10px;
-            --ease:        200ms cubic-bezier(0.4, 0, 0.2, 1);
-            --ease-out:    320ms cubic-bezier(0.0, 0, 0.2, 1);
+            /* ── Backgrounds (lighter + clearer separation) */
+            --bg-base:   #1c2230;   /* lifted from #161b24 */
+            --bg-deep:   #151a26;   /* still recessed but not crushed */
+            --bg-card:   #242c3d;   /* noticeably brighter card surface */
+            --bg-hover:  #2c3650;   /* strong hover elevation */
+            --bg-subtle: #222a3a;
+            
+            /* ── Rock / slate grays (slightly lifted) */
+            --rock-dark: #35405a;
+            --rock-mid:  #4d5d7c;
+            --rock-lite: #7f91b3;
+            
+            /* ── Snow & ice hierarchy (BRIGHTER TEXT) */
+            --snow:      #f8fbff;   /* true alpine white */
+            --ice:       #eaf2ff;   /* brighter titles */
+            --frost:     #c8d6ea;   /* stronger body contrast */
+            --mist:      #a5b6cf;   /* secondary text more readable */
+            --haze:      #73839e;   /* muted but visible */
+            
+            /* ── Forest green — slightly brighter for pop */
+            --green:        #5fcf82;
+            --green-hi:     #7ef5a4;
+            --green-lo:     rgba(95, 207, 130, 0.16);
+            --green-rim:    rgba(95, 207, 130, 0.4);
+            --green-glow:   rgba(95, 207, 130, 0.12);
+            
+            /* ── Amber / alpine gold (slightly clearer) */
+            --amber:     #e0b879;
+            --amber-lo:  rgba(224, 184, 121, 0.16);
+            
+            /* ── Cold navy (lifted slightly) */
+            --navy:      #18213a;
+            
+            /* ── Snow-light (more noticeable breathing glow) */
+            --snowlight: rgba(235, 245, 255, 0.08);
         }
 
         /* ── Reset ── */
@@ -621,7 +616,7 @@
      PROJECTS
 ═══════════════════════════════════════════════ -->
 <div class="container">
-    <p class="section-label">Selected Work</p>
+    <p class="section-label">Projects</p>
 
     <!-- 01 ─ Retro Alarm Clock -->
     <section class="project-card">
